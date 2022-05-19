@@ -1,0 +1,172 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"dma.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_DMA_Init,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	MX_DMA_Init
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	MX_DMA_Init:
+  26              	.LFB40:
+  27              		.file 1 "Src/dma.c"
+   1:Src/dma.c     **** /**
+   2:Src/dma.c     ****   ******************************************************************************
+   3:Src/dma.c     ****   * @file    dma.c
+   4:Src/dma.c     ****   * @brief   This file provides code for the configuration
+   5:Src/dma.c     ****   *          of all the requested memory to memory DMA transfers.
+   6:Src/dma.c     ****   ******************************************************************************
+   7:Src/dma.c     ****   * @attention
+   8:Src/dma.c     ****   *
+   9:Src/dma.c     ****   * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  10:Src/dma.c     ****   * All rights reserved.</center></h2>
+  11:Src/dma.c     ****   *
+  12:Src/dma.c     ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/dma.c     ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/dma.c     ****   * License. You may obtain a copy of the License at:
+  15:Src/dma.c     ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/dma.c     ****   *
+  17:Src/dma.c     ****   ******************************************************************************
+  18:Src/dma.c     ****   */
+  19:Src/dma.c     **** 
+  20:Src/dma.c     **** /* Includes ------------------------------------------------------------------*/
+  21:Src/dma.c     **** #include "dma.h"
+  22:Src/dma.c     **** 
+  23:Src/dma.c     **** /* USER CODE BEGIN 0 */
+  24:Src/dma.c     **** 
+  25:Src/dma.c     **** /* USER CODE END 0 */
+  26:Src/dma.c     **** 
+  27:Src/dma.c     **** /*----------------------------------------------------------------------------*/
+  28:Src/dma.c     **** /* Configure DMA                                                              */
+  29:Src/dma.c     **** /*----------------------------------------------------------------------------*/
+  30:Src/dma.c     **** 
+  31:Src/dma.c     **** /* USER CODE BEGIN 1 */
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s 			page 2
+
+
+  32:Src/dma.c     **** 
+  33:Src/dma.c     **** /* USER CODE END 1 */
+  34:Src/dma.c     **** 
+  35:Src/dma.c     **** /**
+  36:Src/dma.c     ****   * Enable DMA controller clock
+  37:Src/dma.c     ****   */
+  38:Src/dma.c     **** void MX_DMA_Init(void)
+  39:Src/dma.c     **** {
+  28              		.loc 1 39 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  40:Src/dma.c     **** 
+  41:Src/dma.c     ****   /* DMA controller clock enable */
+  42:Src/dma.c     ****   __HAL_RCC_DMA1_CLK_ENABLE();
+  32              		.loc 1 42 3 view .LVU1
+  33              	.LBB2:
+  34              		.loc 1 42 3 view .LVU2
+  35              		.loc 1 42 3 view .LVU3
+  36 0000 0123     		movs	r3, #1
+  37 0002 0A4A     		ldr	r2, .L3
+  38              	.LBE2:
+  39:Src/dma.c     **** 
+  39              		.loc 1 39 1 is_stmt 0 view .LVU4
+  40 0004 00B5     		push	{lr}
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 4
+  43              		.cfi_offset 14, -4
+  44              	.LBB3:
+  45              		.loc 1 42 3 view .LVU5
+  46 0006 5169     		ldr	r1, [r2, #20]
+  47              	.LBE3:
+  39:Src/dma.c     **** 
+  48              		.loc 1 39 1 view .LVU6
+  49 0008 83B0     		sub	sp, sp, #12
+  50              	.LCFI1:
+  51              		.cfi_def_cfa_offset 16
+  52              	.LBB4:
+  53              		.loc 1 42 3 view .LVU7
+  54 000a 1943     		orrs	r1, r3
+  55 000c 5161     		str	r1, [r2, #20]
+  56              		.loc 1 42 3 is_stmt 1 view .LVU8
+  57 000e 5269     		ldr	r2, [r2, #20]
+  58              	.LBE4:
+  43:Src/dma.c     **** 
+  44:Src/dma.c     ****   /* DMA interrupt init */
+  45:Src/dma.c     ****   /* DMA1_Channel1_IRQn interrupt configuration */
+  46:Src/dma.c     ****   HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  59              		.loc 1 46 3 is_stmt 0 view .LVU9
+  60 0010 0021     		movs	r1, #0
+  61              	.LBB5:
+  42:Src/dma.c     **** 
+  62              		.loc 1 42 3 view .LVU10
+  63 0012 1340     		ands	r3, r2
+  64 0014 0193     		str	r3, [sp, #4]
+  42:Src/dma.c     **** 
+  65              		.loc 1 42 3 is_stmt 1 view .LVU11
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s 			page 3
+
+
+  66              	.LBE5:
+  67              		.loc 1 46 3 is_stmt 0 view .LVU12
+  68 0016 0022     		movs	r2, #0
+  69 0018 0920     		movs	r0, #9
+  70              	.LBB6:
+  42:Src/dma.c     **** 
+  71              		.loc 1 42 3 view .LVU13
+  72 001a 019B     		ldr	r3, [sp, #4]
+  73              	.LBE6:
+  42:Src/dma.c     **** 
+  74              		.loc 1 42 3 is_stmt 1 view .LVU14
+  75              		.loc 1 46 3 view .LVU15
+  76 001c FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  77              	.LVL0:
+  47:Src/dma.c     ****   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  78              		.loc 1 47 3 view .LVU16
+  79 0020 0920     		movs	r0, #9
+  80 0022 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+  81              	.LVL1:
+  48:Src/dma.c     **** 
+  49:Src/dma.c     **** }
+  82              		.loc 1 49 1 is_stmt 0 view .LVU17
+  83 0026 03B0     		add	sp, sp, #12
+  84              		@ sp needed
+  85 0028 00BD     		pop	{pc}
+  86              	.L4:
+  87 002a C046     		.align	2
+  88              	.L3:
+  89 002c 00100240 		.word	1073876992
+  90              		.cfi_endproc
+  91              	.LFE40:
+  93              		.text
+  94              	.Letext0:
+  95              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+  96              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+  97              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+  98              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 dma.c
+C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s:18     .text.MX_DMA_Init:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s:25     .text.MX_DMA_Init:0000000000000000 MX_DMA_Init
+C:\Users\rokko\AppData\Local\Temp\cc62hLB6.s:89     .text.MX_DMA_Init:000000000000002c $d
+
+UNDEFINED SYMBOLS
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ

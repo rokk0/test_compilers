@@ -1,0 +1,1599 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32f0xx_hal_exti.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.HAL_EXTI_SetConfigLine,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	HAL_EXTI_SetConfigLine
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	HAL_EXTI_SetConfigLine:
+  26              	.LVL0:
+  27              	.LFB40:
+  28              		.file 1 "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c"
+   1:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+   2:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   ******************************************************************************
+   3:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @file    stm32f0xx_hal_exti.c
+   4:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @author  MCD Application Team
+   5:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief   EXTI HAL module driver.
+   6:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *          This file provides firmware functions to manage the following
+   7:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *          functionalities of the Extended Interrupts and events controller (EXTI) peripheral:
+   8:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *           + Initialization and de-initialization functions
+   9:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *           + IO operation functions
+  10:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *
+  11:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   @verbatim
+  12:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   ==============================================================================
+  13:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****                     ##### EXTI Peripheral features #####
+  14:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   ==============================================================================
+  15:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   [..]
+  16:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (+) Each Exti line can be configured within this driver.
+  17:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  18:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (+) Exti line can be configured in 3 different modes
+  19:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Interrupt
+  20:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Event
+  21:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Both of them
+  22:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  23:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (+) Configurable Exti lines can be configured with 3 different triggers
+  24:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Rising
+  25:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Falling
+  26:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Both of them
+  27:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  28:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (+) When set in interrupt mode, configurable Exti lines have two different
+  29:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         interrupts pending registers which allow to distinguish which transition
+  30:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         occurs:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 2
+
+
+  31:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Rising edge pending interrupt
+  32:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Falling
+  33:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  34:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (+) Exti lines 0 to 15 are linked to gpio pin number 0 to 15. Gpio port can
+  35:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         be selected through multiplexer.
+  36:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  37:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****                      ##### How to use this driver #####
+  38:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   ==============================================================================
+  39:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   [..]
+  40:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  41:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Configure the EXTI line using HAL_EXTI_SetConfigLine().
+  42:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Choose the interrupt line number by setting "Line" member from
+  43:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****              EXTI_ConfigTypeDef structure.
+  44:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Configure the interrupt and/or event mode using "Mode" member from
+  45:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****              EXTI_ConfigTypeDef structure.
+  46:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) For configurable lines, configure rising and/or falling trigger
+  47:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****              "Trigger" member from EXTI_ConfigTypeDef structure.
+  48:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) For Exti lines linked to gpio, choose gpio port using "GPIOSel"
+  49:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****              member from GPIO_InitTypeDef structure.
+  50:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  51:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Get current Exti configuration of a dedicated line using
+  52:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         HAL_EXTI_GetConfigLine().
+  53:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Provide exiting handle as parameter.
+  54:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Provide pointer on EXTI_ConfigTypeDef structure as second parameter.
+  55:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  56:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Clear Exti configuration of a dedicated line using HAL_EXTI_GetConfigLine().
+  57:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Provide exiting handle as parameter.
+  58:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  59:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Register callback to treat Exti interrupts using HAL_EXTI_RegisterCallback().
+  60:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Provide exiting handle as first parameter.
+  61:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Provide which callback will be registered using one value from
+  62:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****              EXTI_CallbackIDTypeDef.
+  63:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****         (++) Provide callback function pointer.
+  64:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  65:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Get interrupt pending bit using HAL_EXTI_GetPending().
+  66:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  67:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Clear interrupt pending bit using HAL_EXTI_GetPending().
+  68:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  69:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     (#) Generate software interrupt using HAL_EXTI_GenerateSWI().
+  70:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  71:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   @endverbatim
+  72:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   ******************************************************************************
+  73:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @attention
+  74:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *
+  75:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
+  76:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * All rights reserved.</center></h2>
+  77:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *
+  78:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  79:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * the "License"; You may not use this file except in compliance with the
+  80:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * License. You may obtain a copy of the License at:
+  81:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  82:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *
+  83:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   ******************************************************************************
+  84:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+  85:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  86:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Includes ------------------------------------------------------------------*/
+  87:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** #include "stm32f0xx_hal.h"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 3
+
+
+  88:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  89:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** @addtogroup STM32F0xx_HAL_Driver
+  90:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @{
+  91:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+  92:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  93:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** @addtogroup EXTI
+  94:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @{
+  95:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+  96:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** MISRA C:2012 deviation rule has been granted for following rule:
+  97:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * Rule-18.1_b - Medium: Array `EXTICR' 1st subscript interval [0,7] may be out
+  98:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * of bounds [0,3] in following API :
+  99:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * HAL_EXTI_SetConfigLine
+ 100:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * HAL_EXTI_GetConfigLine
+ 101:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * HAL_EXTI_ClearConfigLine
+ 102:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 103:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 104:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** #ifdef HAL_EXTI_MODULE_ENABLED
+ 105:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 106:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Private typedef -----------------------------------------------------------*/
+ 107:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Private defines -----------------------------------------------------------*/
+ 108:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** @defgroup EXTI_Private_Constants EXTI Private Constants
+ 109:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @{
+ 110:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 111:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 112:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 113:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @}
+ 114:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 115:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 116:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Private macros ------------------------------------------------------------*/
+ 117:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Private variables ---------------------------------------------------------*/
+ 118:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Private function prototypes -----------------------------------------------*/
+ 119:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /* Exported functions --------------------------------------------------------*/
+ 120:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 121:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** @addtogroup EXTI_Exported_Functions
+ 122:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @{
+ 123:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 124:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 125:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** @addtogroup EXTI_Exported_Functions_Group1
+ 126:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *  @brief    Configuration functions
+ 127:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *
+ 128:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** @verbatim
+ 129:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****  ===============================================================================
+ 130:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****               ##### Configuration functions #####
+ 131:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****  ===============================================================================
+ 132:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 133:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** @endverbatim
+ 134:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @{
+ 135:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 136:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 137:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 138:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Set configuration of a dedicated Exti line.
+ 139:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 140:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  pExtiConfig Pointer on EXTI configuration to be set.
+ 141:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval HAL Status.
+ 142:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 143:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** HAL_StatusTypeDef HAL_EXTI_SetConfigLine(EXTI_HandleTypeDef *hexti, EXTI_ConfigTypeDef *pExtiConfig
+ 144:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 4
+
+
+  29              		.loc 1 144 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+  33              		.loc 1 145 3 view .LVU1
+ 146:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t linepos;
+  34              		.loc 1 146 3 view .LVU2
+ 147:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+  35              		.loc 1 147 3 view .LVU3
+ 148:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 149:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check null pointer */
+ 150:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((hexti == NULL) || (pExtiConfig == NULL))
+  36              		.loc 1 150 3 view .LVU4
+ 144:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+  37              		.loc 1 144 1 is_stmt 0 view .LVU5
+  38 0000 70B5     		push	{r4, r5, r6, lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 16
+  41              		.cfi_offset 4, -16
+  42              		.cfi_offset 5, -12
+  43              		.cfi_offset 6, -8
+  44              		.cfi_offset 14, -4
+  45              		.loc 1 150 6 view .LVU6
+  46 0002 0028     		cmp	r0, #0
+  47 0004 47D0     		beq	.L14
+  48              		.loc 1 150 23 discriminator 1 view .LVU7
+  49 0006 0029     		cmp	r1, #0
+  50 0008 45D0     		beq	.L14
+ 151:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 152:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     return HAL_ERROR;
+ 153:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 154:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 155:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check parameters */
+ 156:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(pExtiConfig->Line));
+  51              		.loc 1 156 3 is_stmt 1 view .LVU8
+ 157:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_MODE(pExtiConfig->Mode));
+  52              		.loc 1 157 3 view .LVU9
+ 158:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 159:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Assign line number to handle */
+ 160:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   hexti->Line = pExtiConfig->Line;
+  53              		.loc 1 160 3 view .LVU10
+  54              		.loc 1 160 28 is_stmt 0 view .LVU11
+  55 000a 0C68     		ldr	r4, [r1]
+ 161:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 162:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Compute line mask */
+ 163:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   linepos = (pExtiConfig->Line & EXTI_PIN_MASK);
+  56              		.loc 1 163 11 view .LVU12
+  57 000c 1F23     		movs	r3, #31
+ 160:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+  58              		.loc 1 160 15 view .LVU13
+  59 000e 0460     		str	r4, [r0]
+  60              		.loc 1 163 3 is_stmt 1 view .LVU14
+ 164:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+  61              		.loc 1 164 12 is_stmt 0 view .LVU15
+  62 0010 0120     		movs	r0, #1
+  63              	.LVL1:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 5
+
+
+  64              		.loc 1 164 12 view .LVU16
+  65 0012 0200     		movs	r2, r0
+ 163:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+  66              		.loc 1 163 11 view .LVU17
+  67 0014 2340     		ands	r3, r4
+  68              	.LVL2:
+  69              		.loc 1 164 3 is_stmt 1 view .LVU18
+  70              		.loc 1 164 12 is_stmt 0 view .LVU19
+  71 0016 9A40     		lsls	r2, r2, r3
+  72              	.LVL3:
+ 165:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 166:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Configure triggers for configurable lines */
+ 167:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((pExtiConfig->Line & EXTI_CONFIG) != 0x00u)
+  73              		.loc 1 167 3 is_stmt 1 view .LVU20
+  74              		.loc 1 167 6 is_stmt 0 view .LVU21
+  75 0018 A501     		lsls	r5, r4, #6
+  76 001a 22D5     		bpl	.L4
+ 168:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 169:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     assert_param(IS_EXTI_TRIGGER(pExtiConfig->Trigger));
+  77              		.loc 1 169 5 is_stmt 1 view .LVU22
+ 170:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 171:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Configure rising trigger */
+ 172:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Mask or set line */
+ 173:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((pExtiConfig->Trigger & EXTI_TRIGGER_RISING) != 0x00u)
+  78              		.loc 1 173 5 view .LVU23
+  79              		.loc 1 173 21 is_stmt 0 view .LVU24
+  80 001c 8D68     		ldr	r5, [r1, #8]
+ 174:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 175:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       EXTI->RTSR |= maskline;
+  81              		.loc 1 175 18 view .LVU25
+  82 001e 244E     		ldr	r6, .L20
+ 173:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+  83              		.loc 1 173 8 view .LVU26
+  84 0020 2842     		tst	r0, r5
+  85 0022 3AD1     		bne	.L16
+ 176:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 177:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     else
+ 178:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 179:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       EXTI->RTSR &= ~maskline;
+  86              		.loc 1 179 7 is_stmt 1 view .LVU27
+  87              		.loc 1 179 18 is_stmt 0 view .LVU28
+  88 0024 B068     		ldr	r0, [r6, #8]
+  89 0026 9043     		bics	r0, r2
+  90 0028 B060     		str	r0, [r6, #8]
+ 180:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 181:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 182:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Configure falling trigger */
+ 183:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Mask or set line */
+ 184:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((pExtiConfig->Trigger & EXTI_TRIGGER_FALLING) != 0x00u)
+  91              		.loc 1 184 5 is_stmt 1 view .LVU29
+  92              		.loc 1 184 8 is_stmt 0 view .LVU30
+  93 002a A807     		lsls	r0, r5, #30
+  94 002c 3AD5     		bpl	.L7
+  95              	.L19:
+ 185:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 186:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       EXTI->FTSR |= maskline;
+  96              		.loc 1 186 7 is_stmt 1 view .LVU31
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 6
+
+
+  97              		.loc 1 186 18 is_stmt 0 view .LVU32
+  98 002e 204D     		ldr	r5, .L20
+  99 0030 E868     		ldr	r0, [r5, #12]
+ 100 0032 1043     		orrs	r0, r2
+ 101 0034 E860     		str	r0, [r5, #12]
+ 102              	.L8:
+ 187:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 188:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     else
+ 189:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 190:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       EXTI->FTSR &= ~maskline;
+ 191:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 192:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 193:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 194:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Configure gpio port selection in case of gpio exti line */
+ 195:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((pExtiConfig->Line & EXTI_GPIO) == EXTI_GPIO)
+ 103              		.loc 1 195 5 is_stmt 1 view .LVU33
+ 104              		.loc 1 195 28 is_stmt 0 view .LVU34
+ 105 0036 C020     		movs	r0, #192
+ 106 0038 2500     		movs	r5, r4
+ 107 003a C004     		lsls	r0, r0, #19
+ 108 003c 0540     		ands	r5, r0
+ 109              		.loc 1 195 8 view .LVU35
+ 110 003e 8542     		cmp	r5, r0
+ 111 0040 0FD1     		bne	.L4
+ 196:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 197:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       assert_param(IS_EXTI_GPIO_PORT(pExtiConfig->GPIOSel));
+ 112              		.loc 1 197 7 is_stmt 1 view .LVU36
+ 198:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       assert_param(IS_EXTI_GPIO_PIN(linepos));
+ 113              		.loc 1 198 7 view .LVU37
+ 199:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 200:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval = SYSCFG->EXTICR[linepos >> 2u];
+ 114              		.loc 1 200 7 view .LVU38
+ 115 0042 1C48     		ldr	r0, .L20+4
+ 116              		.loc 1 200 39 is_stmt 0 view .LVU39
+ 117 0044 9B08     		lsrs	r3, r3, #2
+ 118              	.LVL4:
+ 119              		.loc 1 200 39 view .LVU40
+ 120 0046 8446     		mov	ip, r0
+ 201:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 121              		.loc 1 201 80 view .LVU41
+ 122 0048 0320     		movs	r0, #3
+ 123 004a 0440     		ands	r4, r0
+ 124              	.LVL5:
+ 125              		.loc 1 201 69 view .LVU42
+ 126 004c A400     		lsls	r4, r4, #2
+ 127              		.loc 1 201 40 view .LVU43
+ 128 004e 0C30     		adds	r0, r0, #12
+ 129 0050 A040     		lsls	r0, r0, r4
+ 130 0052 9B00     		lsls	r3, r3, #2
+ 131 0054 6344     		add	r3, r3, ip
+ 200:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 132              		.loc 1 200 14 view .LVU44
+ 133 0056 9D68     		ldr	r5, [r3, #8]
+ 134              	.LVL6:
+ 135              		.loc 1 201 7 is_stmt 1 view .LVU45
+ 136              		.loc 1 201 14 is_stmt 0 view .LVU46
+ 137 0058 8543     		bics	r5, r0
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 7
+
+
+ 138              	.LVL7:
+ 202:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval |= (pExtiConfig->GPIOSel << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 139              		.loc 1 202 7 is_stmt 1 view .LVU47
+ 140              		.loc 1 202 39 is_stmt 0 view .LVU48
+ 141 005a C868     		ldr	r0, [r1, #12]
+ 142 005c A040     		lsls	r0, r0, r4
+ 143              		.loc 1 202 14 view .LVU49
+ 144 005e 2843     		orrs	r0, r5
+ 145              	.LVL8:
+ 203:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 146              		.loc 1 203 7 is_stmt 1 view .LVU50
+ 147              		.loc 1 203 37 is_stmt 0 view .LVU51
+ 148 0060 9860     		str	r0, [r3, #8]
+ 149              	.LVL9:
+ 150              	.L4:
+ 204:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 205:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 206:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 207:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Configure interrupt mode : read current mode */
+ 208:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Mask or set line */
+ 209:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((pExtiConfig->Mode & EXTI_MODE_INTERRUPT) != 0x00u)
+ 151              		.loc 1 209 3 is_stmt 1 view .LVU52
+ 152              		.loc 1 209 19 is_stmt 0 view .LVU53
+ 153 0062 4B68     		ldr	r3, [r1, #4]
+ 210:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 211:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->IMR |= maskline;
+ 154              		.loc 1 211 15 view .LVU54
+ 155 0064 1248     		ldr	r0, .L20
+ 209:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 156              		.loc 1 209 6 view .LVU55
+ 157 0066 D907     		lsls	r1, r3, #31
+ 158 0068 0AD4     		bmi	.L17
+ 159              	.LVL10:
+ 212:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 213:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   else
+ 214:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 215:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->IMR &= ~maskline;
+ 160              		.loc 1 215 5 is_stmt 1 view .LVU56
+ 161              		.loc 1 215 15 is_stmt 0 view .LVU57
+ 162 006a 0168     		ldr	r1, [r0]
+ 163 006c 9143     		bics	r1, r2
+ 164 006e 0160     		str	r1, [r0]
+ 216:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 217:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 218:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Configure event mode : read current mode */
+ 219:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Mask or set line */
+ 220:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((pExtiConfig->Mode & EXTI_MODE_EVENT) != 0x00u)
+ 165              		.loc 1 220 3 is_stmt 1 view .LVU58
+ 221:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 222:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->EMR |= maskline;
+ 166              		.loc 1 222 15 is_stmt 0 view .LVU59
+ 167 0070 0F49     		ldr	r1, .L20
+ 220:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 168              		.loc 1 220 6 view .LVU60
+ 169 0072 9B07     		lsls	r3, r3, #30
+ 170 0074 0AD5     		bpl	.L12
+ 171              	.L18:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 8
+
+
+ 172              		.loc 1 222 5 is_stmt 1 view .LVU61
+ 223:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 224:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   else
+ 225:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 226:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->EMR &= ~maskline;
+ 227:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 228:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 229:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return HAL_OK;
+ 173              		.loc 1 229 10 is_stmt 0 view .LVU62
+ 174 0076 0020     		movs	r0, #0
+ 222:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 175              		.loc 1 222 15 view .LVU63
+ 176 0078 4B68     		ldr	r3, [r1, #4]
+ 177 007a 1A43     		orrs	r2, r3
+ 178              	.LVL11:
+ 222:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 179              		.loc 1 222 15 view .LVU64
+ 180 007c 4A60     		str	r2, [r1, #4]
+ 181              	.L2:
+ 230:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 182              		.loc 1 230 1 view .LVU65
+ 183              		@ sp needed
+ 184 007e 70BD     		pop	{r4, r5, r6, pc}
+ 185              	.LVL12:
+ 186              	.L17:
+ 211:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 187              		.loc 1 211 5 is_stmt 1 view .LVU66
+ 211:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 188              		.loc 1 211 15 is_stmt 0 view .LVU67
+ 189 0080 0168     		ldr	r1, [r0]
+ 190 0082 1143     		orrs	r1, r2
+ 191 0084 0160     		str	r1, [r0]
+ 220:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 192              		.loc 1 220 3 is_stmt 1 view .LVU68
+ 222:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 193              		.loc 1 222 15 is_stmt 0 view .LVU69
+ 194 0086 0A49     		ldr	r1, .L20
+ 220:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 195              		.loc 1 220 6 view .LVU70
+ 196 0088 9B07     		lsls	r3, r3, #30
+ 197 008a F4D4     		bmi	.L18
+ 198              	.L12:
+ 226:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 199              		.loc 1 226 5 is_stmt 1 view .LVU71
+ 226:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 200              		.loc 1 226 15 is_stmt 0 view .LVU72
+ 201 008c 4B68     		ldr	r3, [r1, #4]
+ 229:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 202              		.loc 1 229 10 view .LVU73
+ 203 008e 0020     		movs	r0, #0
+ 226:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 204              		.loc 1 226 15 view .LVU74
+ 205 0090 9343     		bics	r3, r2
+ 206 0092 4B60     		str	r3, [r1, #4]
+ 207 0094 F3E7     		b	.L2
+ 208              	.LVL13:
+ 209              	.L14:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 9
+
+
+ 152:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 210              		.loc 1 152 12 view .LVU75
+ 211 0096 0120     		movs	r0, #1
+ 212              	.LVL14:
+ 152:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 213              		.loc 1 152 12 view .LVU76
+ 214 0098 F1E7     		b	.L2
+ 215              	.LVL15:
+ 216              	.L16:
+ 175:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 217              		.loc 1 175 7 is_stmt 1 view .LVU77
+ 175:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 218              		.loc 1 175 18 is_stmt 0 view .LVU78
+ 219 009a B068     		ldr	r0, [r6, #8]
+ 220 009c 1043     		orrs	r0, r2
+ 221 009e B060     		str	r0, [r6, #8]
+ 184:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 222              		.loc 1 184 5 is_stmt 1 view .LVU79
+ 184:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 223              		.loc 1 184 8 is_stmt 0 view .LVU80
+ 224 00a0 A807     		lsls	r0, r5, #30
+ 225 00a2 C4D4     		bmi	.L19
+ 226              	.L7:
+ 190:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 227              		.loc 1 190 7 is_stmt 1 view .LVU81
+ 190:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 228              		.loc 1 190 18 is_stmt 0 view .LVU82
+ 229 00a4 024D     		ldr	r5, .L20
+ 230 00a6 E868     		ldr	r0, [r5, #12]
+ 231 00a8 9043     		bics	r0, r2
+ 232 00aa E860     		str	r0, [r5, #12]
+ 233 00ac C3E7     		b	.L8
+ 234              	.L21:
+ 235 00ae C046     		.align	2
+ 236              	.L20:
+ 237 00b0 00040140 		.word	1073808384
+ 238 00b4 00000140 		.word	1073807360
+ 239              		.cfi_endproc
+ 240              	.LFE40:
+ 242              		.section	.text.HAL_EXTI_GetConfigLine,"ax",%progbits
+ 243              		.align	1
+ 244              		.p2align 2,,3
+ 245              		.global	HAL_EXTI_GetConfigLine
+ 246              		.syntax unified
+ 247              		.code	16
+ 248              		.thumb_func
+ 250              	HAL_EXTI_GetConfigLine:
+ 251              	.LVL16:
+ 252              	.LFB41:
+ 231:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 232:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 233:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Get configuration of a dedicated Exti line.
+ 234:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 235:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  pExtiConfig Pointer on structure to store Exti configuration.
+ 236:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval HAL Status.
+ 237:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 238:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** HAL_StatusTypeDef HAL_EXTI_GetConfigLine(EXTI_HandleTypeDef *hexti, EXTI_ConfigTypeDef *pExtiConfig
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 10
+
+
+ 239:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 253              		.loc 1 239 1 is_stmt 1 view -0
+ 254              		.cfi_startproc
+ 255              		@ args = 0, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 240:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 257              		.loc 1 240 3 view .LVU84
+ 241:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t linepos;
+ 258              		.loc 1 241 3 view .LVU85
+ 242:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+ 259              		.loc 1 242 3 view .LVU86
+ 243:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 244:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check null pointer */
+ 245:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((hexti == NULL) || (pExtiConfig == NULL))
+ 260              		.loc 1 245 3 view .LVU87
+ 239:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 261              		.loc 1 239 1 is_stmt 0 view .LVU88
+ 262 0000 70B5     		push	{r4, r5, r6, lr}
+ 263              	.LCFI1:
+ 264              		.cfi_def_cfa_offset 16
+ 265              		.cfi_offset 4, -16
+ 266              		.cfi_offset 5, -12
+ 267              		.cfi_offset 6, -8
+ 268              		.cfi_offset 14, -4
+ 269              		.loc 1 245 6 view .LVU89
+ 270 0002 0028     		cmp	r0, #0
+ 271 0004 39D0     		beq	.L30
+ 272              		.loc 1 245 23 discriminator 1 view .LVU90
+ 273 0006 0029     		cmp	r1, #0
+ 274 0008 37D0     		beq	.L30
+ 246:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 247:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     return HAL_ERROR;
+ 248:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 249:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 250:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check the parameter */
+ 251:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(hexti->Line));
+ 275              		.loc 1 251 3 is_stmt 1 view .LVU91
+ 252:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 253:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Store handle line number to configuration structure */
+ 254:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   pExtiConfig->Line = hexti->Line;
+ 276              		.loc 1 254 3 view .LVU92
+ 255:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 256:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Compute line mask */
+ 257:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   linepos = (pExtiConfig->Line & EXTI_PIN_MASK);
+ 277              		.loc 1 257 11 is_stmt 0 view .LVU93
+ 278 000a 1F25     		movs	r5, #31
+ 258:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 279              		.loc 1 258 12 view .LVU94
+ 280 000c 0122     		movs	r2, #1
+ 254:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 281              		.loc 1 254 28 view .LVU95
+ 282 000e 0468     		ldr	r4, [r0]
+ 259:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 260:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* 1] Get core mode : interrupt */
+ 261:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 262:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check if selected line is enable */
+ 263:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((EXTI->IMR & maskline) != 0x00u)
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 11
+
+
+ 283              		.loc 1 263 12 view .LVU96
+ 284 0010 1B48     		ldr	r0, .L41
+ 285              	.LVL17:
+ 257:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 286              		.loc 1 257 11 view .LVU97
+ 287 0012 2540     		ands	r5, r4
+ 258:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 288              		.loc 1 258 12 view .LVU98
+ 289 0014 AA40     		lsls	r2, r2, r5
+ 254:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 290              		.loc 1 254 21 view .LVU99
+ 291 0016 0C60     		str	r4, [r1]
+ 257:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 292              		.loc 1 257 3 is_stmt 1 view .LVU100
+ 293              	.LVL18:
+ 258:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 294              		.loc 1 258 3 view .LVU101
+ 295              		.loc 1 263 3 view .LVU102
+ 296              		.loc 1 263 12 is_stmt 0 view .LVU103
+ 297 0018 0368     		ldr	r3, [r0]
+ 298              		.loc 1 263 18 view .LVU104
+ 299 001a 1340     		ands	r3, r2
+ 300              		.loc 1 263 6 view .LVU105
+ 301 001c 5E1E     		subs	r6, r3, #1
+ 302 001e B341     		sbcs	r3, r3, r6
+ 303 0020 4B60     		str	r3, [r1, #4]
+ 264:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 265:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     pExtiConfig->Mode = EXTI_MODE_INTERRUPT;
+ 266:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 267:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   else
+ 268:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 269:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     pExtiConfig->Mode = EXTI_MODE_NONE;
+ 270:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 271:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 272:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Get event mode */
+ 273:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check if selected line is enable */
+ 274:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((EXTI->EMR & maskline) != 0x00u)
+ 304              		.loc 1 274 3 is_stmt 1 view .LVU106
+ 305              		.loc 1 274 12 is_stmt 0 view .LVU107
+ 306 0022 4068     		ldr	r0, [r0, #4]
+ 307              		.loc 1 274 6 view .LVU108
+ 308 0024 0242     		tst	r2, r0
+ 309 0026 02D0     		beq	.L24
+ 275:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 276:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     pExtiConfig->Mode |= EXTI_MODE_EVENT;
+ 310              		.loc 1 276 5 is_stmt 1 view .LVU109
+ 311              		.loc 1 276 23 is_stmt 0 view .LVU110
+ 312 0028 0220     		movs	r0, #2
+ 313 002a 0343     		orrs	r3, r0
+ 314 002c 4B60     		str	r3, [r1, #4]
+ 315              	.L24:
+ 277:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 278:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 279:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Get default Trigger and GPIOSel configuration */
+ 280:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   pExtiConfig->Trigger = EXTI_TRIGGER_NONE;
+ 316              		.loc 1 280 3 is_stmt 1 view .LVU111
+ 317              		.loc 1 280 24 is_stmt 0 view .LVU112
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 12
+
+
+ 318 002e 0020     		movs	r0, #0
+ 319 0030 8860     		str	r0, [r1, #8]
+ 281:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   pExtiConfig->GPIOSel = 0x00u;
+ 320              		.loc 1 281 3 is_stmt 1 view .LVU113
+ 321              		.loc 1 281 24 is_stmt 0 view .LVU114
+ 322 0032 C860     		str	r0, [r1, #12]
+ 282:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 283:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* 2] Get trigger for configurable lines : rising */
+ 284:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((pExtiConfig->Line & EXTI_CONFIG) != 0x00u)
+ 323              		.loc 1 284 3 is_stmt 1 view .LVU115
+ 324              		.loc 1 284 6 is_stmt 0 view .LVU116
+ 325 0034 A301     		lsls	r3, r4, #6
+ 326 0036 01D4     		bmi	.L25
+ 327              	.LVL19:
+ 328              	.L40:
+ 285:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 286:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Check if configuration of selected line is enable */
+ 287:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((EXTI->RTSR & maskline) != 0x00u)
+ 288:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 289:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       pExtiConfig->Trigger = EXTI_TRIGGER_RISING;
+ 290:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 291:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 292:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Get falling configuration */
+ 293:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Check if configuration of selected line is enable */
+ 294:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((EXTI->FTSR & maskline) != 0x00u)
+ 295:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 296:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       pExtiConfig->Trigger |= EXTI_TRIGGER_FALLING;
+ 297:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 298:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 299:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Get Gpio port selection for gpio lines */
+ 300:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((pExtiConfig->Line & EXTI_GPIO) == EXTI_GPIO)
+ 301:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 302:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       assert_param(IS_EXTI_GPIO_PIN(linepos));
+ 303:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 304:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval = SYSCFG->EXTICR[linepos >> 2u];
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       pExtiConfig->GPIOSel = ((regval << (SYSCFG_EXTICR1_EXTI1_Pos * (3uL - (linepos & 0x03u)))) >>
+ 306:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 307:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 308:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 309:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return HAL_OK;
+ 329              		.loc 1 309 10 view .LVU117
+ 330 0038 0020     		movs	r0, #0
+ 331              	.LVL20:
+ 332              	.L23:
+ 310:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 333              		.loc 1 310 1 view .LVU118
+ 334              		@ sp needed
+ 335 003a 70BD     		pop	{r4, r5, r6, pc}
+ 336              	.LVL21:
+ 337              	.L25:
+ 287:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 338              		.loc 1 287 5 is_stmt 1 view .LVU119
+ 287:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 339              		.loc 1 287 14 is_stmt 0 view .LVU120
+ 340 003c 104B     		ldr	r3, .L41
+ 341 003e 9B68     		ldr	r3, [r3, #8]
+ 287:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 13
+
+
+ 342              		.loc 1 287 8 view .LVU121
+ 343 0040 1A42     		tst	r2, r3
+ 344 0042 01D0     		beq	.L26
+ 289:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 345              		.loc 1 289 7 is_stmt 1 view .LVU122
+ 289:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 346              		.loc 1 289 28 is_stmt 0 view .LVU123
+ 347 0044 0123     		movs	r3, #1
+ 348 0046 8B60     		str	r3, [r1, #8]
+ 349              	.L26:
+ 294:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 350              		.loc 1 294 5 is_stmt 1 view .LVU124
+ 294:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 351              		.loc 1 294 14 is_stmt 0 view .LVU125
+ 352 0048 0D4B     		ldr	r3, .L41
+ 353 004a DB68     		ldr	r3, [r3, #12]
+ 294:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 354              		.loc 1 294 8 view .LVU126
+ 355 004c 1A42     		tst	r2, r3
+ 356 004e 03D0     		beq	.L27
+ 296:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 357              		.loc 1 296 7 is_stmt 1 view .LVU127
+ 296:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 358              		.loc 1 296 28 is_stmt 0 view .LVU128
+ 359 0050 0223     		movs	r3, #2
+ 360 0052 8A68     		ldr	r2, [r1, #8]
+ 361              	.LVL22:
+ 296:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 362              		.loc 1 296 28 view .LVU129
+ 363 0054 1343     		orrs	r3, r2
+ 364 0056 8B60     		str	r3, [r1, #8]
+ 365              	.L27:
+ 300:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 366              		.loc 1 300 5 is_stmt 1 view .LVU130
+ 300:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 367              		.loc 1 300 28 is_stmt 0 view .LVU131
+ 368 0058 C022     		movs	r2, #192
+ 369 005a D204     		lsls	r2, r2, #19
+ 370 005c 1440     		ands	r4, r2
+ 300:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 371              		.loc 1 300 8 view .LVU132
+ 372 005e 9442     		cmp	r4, r2
+ 373 0060 EAD1     		bne	.L40
+ 302:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 374              		.loc 1 302 7 is_stmt 1 view .LVU133
+ 304:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       pExtiConfig->GPIOSel = ((regval << (SYSCFG_EXTICR1_EXTI1_Pos * (3uL - (linepos & 0x03u)))) >>
+ 375              		.loc 1 304 7 view .LVU134
+ 304:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       pExtiConfig->GPIOSel = ((regval << (SYSCFG_EXTICR1_EXTI1_Pos * (3uL - (linepos & 0x03u)))) >>
+ 376              		.loc 1 304 39 is_stmt 0 view .LVU135
+ 377 0062 AB08     		lsrs	r3, r5, #2
+ 304:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       pExtiConfig->GPIOSel = ((regval << (SYSCFG_EXTICR1_EXTI1_Pos * (3uL - (linepos & 0x03u)))) >>
+ 378              		.loc 1 304 14 view .LVU136
+ 379 0064 074A     		ldr	r2, .L41+4
+ 380 0066 0233     		adds	r3, r3, #2
+ 381 0068 9B00     		lsls	r3, r3, #2
+ 382 006a 9B58     		ldr	r3, [r3, r2]
+ 383              	.LVL23:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 14
+
+
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 384              		.loc 1 305 7 is_stmt 1 view .LVU137
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 385              		.loc 1 305 75 is_stmt 0 view .LVU138
+ 386 006c 0322     		movs	r2, #3
+ 387 006e AA43     		bics	r2, r5
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 388              		.loc 1 305 68 view .LVU139
+ 389 0070 9200     		lsls	r2, r2, #2
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 390              		.loc 1 305 39 view .LVU140
+ 391 0072 9340     		lsls	r3, r3, r2
+ 392              	.LVL24:
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 393              		.loc 1 305 98 view .LVU141
+ 394 0074 1B0E     		lsrs	r3, r3, #24
+ 305:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 395              		.loc 1 305 28 view .LVU142
+ 396 0076 CB60     		str	r3, [r1, #12]
+ 397 0078 DEE7     		b	.L40
+ 398              	.LVL25:
+ 399              	.L30:
+ 247:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 400              		.loc 1 247 12 view .LVU143
+ 401 007a 0120     		movs	r0, #1
+ 402              	.LVL26:
+ 247:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 403              		.loc 1 247 12 view .LVU144
+ 404 007c DDE7     		b	.L23
+ 405              	.L42:
+ 406 007e C046     		.align	2
+ 407              	.L41:
+ 408 0080 00040140 		.word	1073808384
+ 409 0084 00000140 		.word	1073807360
+ 410              		.cfi_endproc
+ 411              	.LFE41:
+ 413              		.section	.text.HAL_EXTI_ClearConfigLine,"ax",%progbits
+ 414              		.align	1
+ 415              		.p2align 2,,3
+ 416              		.global	HAL_EXTI_ClearConfigLine
+ 417              		.syntax unified
+ 418              		.code	16
+ 419              		.thumb_func
+ 421              	HAL_EXTI_ClearConfigLine:
+ 422              	.LVL27:
+ 423              	.LFB42:
+ 311:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 312:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 313:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Clear whole configuration of a dedicated Exti line.
+ 314:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 315:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval HAL Status.
+ 316:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 317:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** HAL_StatusTypeDef HAL_EXTI_ClearConfigLine(EXTI_HandleTypeDef *hexti)
+ 318:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 424              		.loc 1 318 1 is_stmt 1 view -0
+ 425              		.cfi_startproc
+ 426              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 15
+
+
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ 319:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 428              		.loc 1 319 3 view .LVU146
+ 320:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t linepos;
+ 429              		.loc 1 320 3 view .LVU147
+ 321:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+ 430              		.loc 1 321 3 view .LVU148
+ 322:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 323:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check null pointer */
+ 324:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if (hexti == NULL)
+ 431              		.loc 1 324 3 view .LVU149
+ 318:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 432              		.loc 1 318 1 is_stmt 0 view .LVU150
+ 433 0000 30B5     		push	{r4, r5, lr}
+ 434              	.LCFI2:
+ 435              		.cfi_def_cfa_offset 12
+ 436              		.cfi_offset 4, -12
+ 437              		.cfi_offset 5, -8
+ 438              		.cfi_offset 14, -4
+ 439              		.loc 1 324 6 view .LVU151
+ 440 0002 0028     		cmp	r0, #0
+ 441 0004 2AD0     		beq	.L47
+ 325:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 326:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     return HAL_ERROR;
+ 327:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 328:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 329:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check the parameter */
+ 330:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(hexti->Line));
+ 442              		.loc 1 330 3 is_stmt 1 view .LVU152
+ 331:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 332:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* compute line mask */
+ 333:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   linepos = (hexti->Line & EXTI_PIN_MASK);
+ 443              		.loc 1 333 3 view .LVU153
+ 444              		.loc 1 333 11 is_stmt 0 view .LVU154
+ 445 0006 1F21     		movs	r1, #31
+ 334:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 446              		.loc 1 334 12 view .LVU155
+ 447 0008 0122     		movs	r2, #1
+ 333:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 448              		.loc 1 333 19 view .LVU156
+ 449 000a 0468     		ldr	r4, [r0]
+ 335:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 336:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* 1] Clear interrupt mode */
+ 337:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   EXTI->IMR = (EXTI->IMR & ~maskline);
+ 450              		.loc 1 337 20 view .LVU157
+ 451 000c 144B     		ldr	r3, .L49
+ 333:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 452              		.loc 1 333 11 view .LVU158
+ 453 000e 2140     		ands	r1, r4
+ 454              	.LVL28:
+ 334:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 455              		.loc 1 334 3 is_stmt 1 view .LVU159
+ 456              		.loc 1 337 3 view .LVU160
+ 334:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 457              		.loc 1 334 12 is_stmt 0 view .LVU161
+ 458 0010 8A40     		lsls	r2, r2, r1
+ 459              	.LVL29:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 16
+
+
+ 460              		.loc 1 337 20 view .LVU162
+ 461 0012 1868     		ldr	r0, [r3]
+ 462              	.LVL30:
+ 463              		.loc 1 337 28 view .LVU163
+ 464 0014 D543     		mvns	r5, r2
+ 465              		.loc 1 337 26 view .LVU164
+ 466 0016 9043     		bics	r0, r2
+ 467              		.loc 1 337 13 view .LVU165
+ 468 0018 1860     		str	r0, [r3]
+ 338:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 339:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* 2] Clear event mode */
+ 340:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   EXTI->EMR = (EXTI->EMR & ~maskline);
+ 469              		.loc 1 340 3 is_stmt 1 view .LVU166
+ 470              		.loc 1 340 20 is_stmt 0 view .LVU167
+ 471 001a 5868     		ldr	r0, [r3, #4]
+ 472              		.loc 1 340 26 view .LVU168
+ 473 001c 9043     		bics	r0, r2
+ 474              		.loc 1 340 13 view .LVU169
+ 475 001e 5860     		str	r0, [r3, #4]
+ 341:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 342:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* 3] Clear triggers in case of configurable lines */
+ 343:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if ((hexti->Line & EXTI_CONFIG) != 0x00u)
+ 476              		.loc 1 343 3 is_stmt 1 view .LVU170
+ 477              		.loc 1 343 6 is_stmt 0 view .LVU171
+ 478 0020 A201     		lsls	r2, r4, #6
+ 479 0022 01D4     		bmi	.L45
+ 480              	.LVL31:
+ 481              	.L48:
+ 344:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 345:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->RTSR = (EXTI->RTSR & ~maskline);
+ 346:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->FTSR = (EXTI->FTSR & ~maskline);
+ 347:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 348:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Get Gpio port selection for gpio lines */
+ 349:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if ((hexti->Line & EXTI_GPIO) == EXTI_GPIO)
+ 350:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 351:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       assert_param(IS_EXTI_GPIO_PIN(linepos));
+ 352:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 353:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval = SYSCFG->EXTICR[linepos >> 2u];
+ 354:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 355:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 356:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 357:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 358:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 359:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return HAL_OK;
+ 482              		.loc 1 359 10 view .LVU172
+ 483 0024 0020     		movs	r0, #0
+ 484              	.L44:
+ 360:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 485              		.loc 1 360 1 view .LVU173
+ 486              		@ sp needed
+ 487 0026 30BD     		pop	{r4, r5, pc}
+ 488              	.LVL32:
+ 489              	.L45:
+ 345:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->FTSR = (EXTI->FTSR & ~maskline);
+ 490              		.loc 1 345 5 is_stmt 1 view .LVU174
+ 345:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->FTSR = (EXTI->FTSR & ~maskline);
+ 491              		.loc 1 345 23 is_stmt 0 view .LVU175
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 17
+
+
+ 492 0028 9A68     		ldr	r2, [r3, #8]
+ 345:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->FTSR = (EXTI->FTSR & ~maskline);
+ 493              		.loc 1 345 30 view .LVU176
+ 494 002a 2A40     		ands	r2, r5
+ 345:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->FTSR = (EXTI->FTSR & ~maskline);
+ 495              		.loc 1 345 16 view .LVU177
+ 496 002c 9A60     		str	r2, [r3, #8]
+ 346:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 497              		.loc 1 346 5 is_stmt 1 view .LVU178
+ 346:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 498              		.loc 1 346 23 is_stmt 0 view .LVU179
+ 499 002e DA68     		ldr	r2, [r3, #12]
+ 346:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 500              		.loc 1 346 30 view .LVU180
+ 501 0030 1540     		ands	r5, r2
+ 502              	.LVL33:
+ 346:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 503              		.loc 1 346 16 view .LVU181
+ 504 0032 DD60     		str	r5, [r3, #12]
+ 349:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 505              		.loc 1 349 5 is_stmt 1 view .LVU182
+ 349:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 506              		.loc 1 349 22 is_stmt 0 view .LVU183
+ 507 0034 C023     		movs	r3, #192
+ 508 0036 2200     		movs	r2, r4
+ 509 0038 DB04     		lsls	r3, r3, #19
+ 510 003a 1A40     		ands	r2, r3
+ 349:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 511              		.loc 1 349 8 view .LVU184
+ 512 003c 9A42     		cmp	r2, r3
+ 513 003e F1D1     		bne	.L48
+ 351:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 514              		.loc 1 351 7 is_stmt 1 view .LVU185
+ 353:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 515              		.loc 1 353 7 view .LVU186
+ 516 0040 084B     		ldr	r3, .L49+4
+ 353:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 517              		.loc 1 353 39 is_stmt 0 view .LVU187
+ 518 0042 8908     		lsrs	r1, r1, #2
+ 519              	.LVL34:
+ 353:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 520              		.loc 1 353 39 view .LVU188
+ 521 0044 9C46     		mov	ip, r3
+ 354:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 522              		.loc 1 354 80 view .LVU189
+ 523 0046 0323     		movs	r3, #3
+ 524 0048 1C40     		ands	r4, r3
+ 525              	.LVL35:
+ 354:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 526              		.loc 1 354 69 view .LVU190
+ 527 004a A400     		lsls	r4, r4, #2
+ 354:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 528              		.loc 1 354 40 view .LVU191
+ 529 004c 0C33     		adds	r3, r3, #12
+ 530 004e A340     		lsls	r3, r3, r4
+ 531 0050 8900     		lsls	r1, r1, #2
+ 532 0052 6144     		add	r1, r1, ip
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 18
+
+
+ 353:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       regval &= ~(SYSCFG_EXTICR1_EXTI0 << (SYSCFG_EXTICR1_EXTI1_Pos * (linepos & 0x03u)));
+ 533              		.loc 1 353 14 view .LVU192
+ 534 0054 8A68     		ldr	r2, [r1, #8]
+ 535              	.LVL36:
+ 354:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 536              		.loc 1 354 7 is_stmt 1 view .LVU193
+ 354:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       SYSCFG->EXTICR[linepos >> 2u] = regval;
+ 537              		.loc 1 354 14 is_stmt 0 view .LVU194
+ 538 0056 9A43     		bics	r2, r3
+ 539              	.LVL37:
+ 355:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 540              		.loc 1 355 7 is_stmt 1 view .LVU195
+ 355:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 541              		.loc 1 355 37 is_stmt 0 view .LVU196
+ 542 0058 8A60     		str	r2, [r1, #8]
+ 543 005a E3E7     		b	.L48
+ 544              	.LVL38:
+ 545              	.L47:
+ 326:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 546              		.loc 1 326 12 view .LVU197
+ 547 005c 0120     		movs	r0, #1
+ 548              	.LVL39:
+ 326:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 549              		.loc 1 326 12 view .LVU198
+ 550 005e E2E7     		b	.L44
+ 551              	.L50:
+ 552              		.align	2
+ 553              	.L49:
+ 554 0060 00040140 		.word	1073808384
+ 555 0064 00000140 		.word	1073807360
+ 556              		.cfi_endproc
+ 557              	.LFE42:
+ 559              		.section	.text.HAL_EXTI_RegisterCallback,"ax",%progbits
+ 560              		.align	1
+ 561              		.p2align 2,,3
+ 562              		.global	HAL_EXTI_RegisterCallback
+ 563              		.syntax unified
+ 564              		.code	16
+ 565              		.thumb_func
+ 567              	HAL_EXTI_RegisterCallback:
+ 568              	.LVL40:
+ 569              	.LFB43:
+ 361:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 362:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 363:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Register callback for a dedicated Exti line.
+ 364:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 365:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  CallbackID User callback identifier.
+ 366:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *         This parameter can be one of @arg @ref EXTI_CallbackIDTypeDef values.
+ 367:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  pPendingCbfn function pointer to be stored as callback.
+ 368:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval HAL Status.
+ 369:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 370:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** HAL_StatusTypeDef HAL_EXTI_RegisterCallback(EXTI_HandleTypeDef *hexti, EXTI_CallbackIDTypeDef Callb
+ 371:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 570              		.loc 1 371 1 is_stmt 1 view -0
+ 571              		.cfi_startproc
+ 572              		@ args = 0, pretend = 0, frame = 0
+ 573              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 19
+
+
+ 574              		@ link register save eliminated.
+ 372:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 575              		.loc 1 372 3 view .LVU200
+ 373:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 374:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   switch (CallbackID)
+ 576              		.loc 1 374 3 view .LVU201
+ 371:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   HAL_StatusTypeDef status = HAL_OK;
+ 577              		.loc 1 371 1 is_stmt 0 view .LVU202
+ 578 0000 0300     		movs	r3, r0
+ 375:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 376:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     case  HAL_EXTI_COMMON_CB_ID:
+ 377:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       hexti->PendingCallback = pPendingCbfn;
+ 378:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       break;
+ 379:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 380:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     default:
+ 381:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       status = HAL_ERROR;
+ 579              		.loc 1 381 14 view .LVU203
+ 580 0002 0120     		movs	r0, #1
+ 581              	.LVL41:
+ 374:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 582              		.loc 1 374 3 view .LVU204
+ 583 0004 0029     		cmp	r1, #0
+ 584 0006 01D1     		bne	.L52
+ 377:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       break;
+ 585              		.loc 1 377 7 is_stmt 1 view .LVU205
+ 372:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 586              		.loc 1 372 21 is_stmt 0 view .LVU206
+ 587 0008 0020     		movs	r0, #0
+ 377:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       break;
+ 588              		.loc 1 377 30 view .LVU207
+ 589 000a 5A60     		str	r2, [r3, #4]
+ 378:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 590              		.loc 1 378 7 is_stmt 1 view .LVU208
+ 591              	.L52:
+ 592              	.LVL42:
+ 382:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       break;
+ 383:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 384:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 385:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return status;
+ 593              		.loc 1 385 3 view .LVU209
+ 386:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 594              		.loc 1 386 1 is_stmt 0 view .LVU210
+ 595              		@ sp needed
+ 596 000c 7047     		bx	lr
+ 597              		.cfi_endproc
+ 598              	.LFE43:
+ 600 000e C046     		.section	.text.HAL_EXTI_GetHandle,"ax",%progbits
+ 601              		.align	1
+ 602              		.p2align 2,,3
+ 603              		.global	HAL_EXTI_GetHandle
+ 604              		.syntax unified
+ 605              		.code	16
+ 606              		.thumb_func
+ 608              	HAL_EXTI_GetHandle:
+ 609              	.LVL43:
+ 610              	.LFB44:
+ 387:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 20
+
+
+ 388:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 389:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Store line number as handle private field.
+ 390:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 391:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  ExtiLine Exti line number.
+ 392:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *         This parameter can be from 0 to @ref EXTI_LINE_NB.
+ 393:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval HAL Status.
+ 394:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 395:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** HAL_StatusTypeDef HAL_EXTI_GetHandle(EXTI_HandleTypeDef *hexti, uint32_t ExtiLine)
+ 396:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 611              		.loc 1 396 1 is_stmt 1 view -0
+ 612              		.cfi_startproc
+ 613              		@ args = 0, pretend = 0, frame = 0
+ 614              		@ frame_needed = 0, uses_anonymous_args = 0
+ 615              		@ link register save eliminated.
+ 397:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check the parameters */
+ 398:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(ExtiLine));
+ 616              		.loc 1 398 3 view .LVU212
+ 399:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 400:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check null pointer */
+ 401:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if (hexti == NULL)
+ 617              		.loc 1 401 3 view .LVU213
+ 618              		.loc 1 401 6 is_stmt 0 view .LVU214
+ 619 0000 0028     		cmp	r0, #0
+ 620 0002 02D0     		beq	.L56
+ 402:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 403:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     return HAL_ERROR;
+ 404:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 405:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   else
+ 406:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 407:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Store line number as handle private field */
+ 408:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     hexti->Line = ExtiLine;
+ 621              		.loc 1 408 5 is_stmt 1 view .LVU215
+ 622              		.loc 1 408 17 is_stmt 0 view .LVU216
+ 623 0004 0160     		str	r1, [r0]
+ 409:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 410:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     return HAL_OK;
+ 624              		.loc 1 410 5 is_stmt 1 view .LVU217
+ 625              		.loc 1 410 12 is_stmt 0 view .LVU218
+ 626 0006 0020     		movs	r0, #0
+ 627              	.LVL44:
+ 628              	.L55:
+ 411:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 412:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 629              		.loc 1 412 1 view .LVU219
+ 630              		@ sp needed
+ 631 0008 7047     		bx	lr
+ 632              	.LVL45:
+ 633              	.L56:
+ 403:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 634              		.loc 1 403 12 view .LVU220
+ 635 000a 0120     		movs	r0, #1
+ 636              	.LVL46:
+ 403:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 637              		.loc 1 403 12 view .LVU221
+ 638 000c FCE7     		b	.L55
+ 639              		.cfi_endproc
+ 640              	.LFE44:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 21
+
+
+ 642 000e C046     		.section	.text.HAL_EXTI_IRQHandler,"ax",%progbits
+ 643              		.align	1
+ 644              		.p2align 2,,3
+ 645              		.global	HAL_EXTI_IRQHandler
+ 646              		.syntax unified
+ 647              		.code	16
+ 648              		.thumb_func
+ 650              	HAL_EXTI_IRQHandler:
+ 651              	.LVL47:
+ 652              	.LFB45:
+ 413:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 414:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 415:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @}
+ 416:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 417:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 418:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /** @addtogroup EXTI_Exported_Functions_Group2
+ 419:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *  @brief EXTI IO functions.
+ 420:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *
+ 421:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** @verbatim
+ 422:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****  ===============================================================================
+ 423:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****                        ##### IO operation functions #####
+ 424:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****  ===============================================================================
+ 425:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 426:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** @endverbatim
+ 427:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @{
+ 428:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 429:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 430:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 431:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Handle EXTI interrupt request.
+ 432:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 433:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval none.
+ 434:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 435:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** void HAL_EXTI_IRQHandler(EXTI_HandleTypeDef *hexti)
+ 436:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 653              		.loc 1 436 1 is_stmt 1 view -0
+ 654              		.cfi_startproc
+ 655              		@ args = 0, pretend = 0, frame = 0
+ 656              		@ frame_needed = 0, uses_anonymous_args = 0
+ 437:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 657              		.loc 1 437 3 view .LVU223
+ 438:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+ 658              		.loc 1 438 3 view .LVU224
+ 439:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 440:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Compute line mask */
+ 441:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << (hexti->Line & EXTI_PIN_MASK));
+ 659              		.loc 1 441 3 view .LVU225
+ 660              		.loc 1 441 35 is_stmt 0 view .LVU226
+ 661 0000 1F22     		movs	r2, #31
+ 662 0002 0368     		ldr	r3, [r0]
+ 436:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 663              		.loc 1 436 1 view .LVU227
+ 664 0004 10B5     		push	{r4, lr}
+ 665              	.LCFI3:
+ 666              		.cfi_def_cfa_offset 8
+ 667              		.cfi_offset 4, -8
+ 668              		.cfi_offset 14, -4
+ 669              		.loc 1 441 35 view .LVU228
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 22
+
+
+ 670 0006 1A40     		ands	r2, r3
+ 671              		.loc 1 441 12 view .LVU229
+ 672 0008 0123     		movs	r3, #1
+ 673 000a 9340     		lsls	r3, r3, r2
+ 674              	.LVL48:
+ 442:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 443:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Get pending bit  */
+ 444:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   regval = (EXTI->PR & maskline);
+ 675              		.loc 1 444 3 is_stmt 1 view .LVU230
+ 676              		.loc 1 444 17 is_stmt 0 view .LVU231
+ 677 000c 044A     		ldr	r2, .L64
+ 678 000e 5169     		ldr	r1, [r2, #20]
+ 679              	.LVL49:
+ 445:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   if (regval != 0x00u)
+ 680              		.loc 1 445 3 is_stmt 1 view .LVU232
+ 681              		.loc 1 445 6 is_stmt 0 view .LVU233
+ 682 0010 0B42     		tst	r3, r1
+ 683 0012 04D0     		beq	.L57
+ 446:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   {
+ 447:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Clear pending bit */
+ 448:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     EXTI->PR = maskline;
+ 684              		.loc 1 448 5 is_stmt 1 view .LVU234
+ 685              		.loc 1 448 14 is_stmt 0 view .LVU235
+ 686 0014 5361     		str	r3, [r2, #20]
+ 449:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 450:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     /* Call callback */
+ 451:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     if (hexti->PendingCallback != NULL)
+ 687              		.loc 1 451 5 is_stmt 1 view .LVU236
+ 688              		.loc 1 451 14 is_stmt 0 view .LVU237
+ 689 0016 4368     		ldr	r3, [r0, #4]
+ 690              	.LVL50:
+ 691              		.loc 1 451 8 view .LVU238
+ 692 0018 002B     		cmp	r3, #0
+ 693 001a 00D0     		beq	.L57
+ 452:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     {
+ 453:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****       hexti->PendingCallback();
+ 694              		.loc 1 453 7 is_stmt 1 view .LVU239
+ 695 001c 9847     		blx	r3
+ 696              	.LVL51:
+ 697              	.L57:
+ 454:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****     }
+ 455:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   }
+ 456:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 698              		.loc 1 456 1 is_stmt 0 view .LVU240
+ 699              		@ sp needed
+ 700 001e 10BD     		pop	{r4, pc}
+ 701              	.L65:
+ 702              		.align	2
+ 703              	.L64:
+ 704 0020 00040140 		.word	1073808384
+ 705              		.cfi_endproc
+ 706              	.LFE45:
+ 708              		.section	.text.HAL_EXTI_GetPending,"ax",%progbits
+ 709              		.align	1
+ 710              		.p2align 2,,3
+ 711              		.global	HAL_EXTI_GetPending
+ 712              		.syntax unified
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 23
+
+
+ 713              		.code	16
+ 714              		.thumb_func
+ 716              	HAL_EXTI_GetPending:
+ 717              	.LVL52:
+ 718              	.LFB46:
+ 457:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 458:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 459:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Get interrupt pending bit of a dedicated line.
+ 460:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 461:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  Edge Specify which pending edge as to be checked.
+ 462:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *         This parameter can be one of the following values:
+ 463:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *           @arg @ref EXTI_TRIGGER_RISING_FALLING
+ 464:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *         This parameter is kept for compatibility with other series.
+ 465:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval 1 if interrupt is pending else 0.
+ 466:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 467:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** uint32_t HAL_EXTI_GetPending(EXTI_HandleTypeDef *hexti, uint32_t Edge)
+ 468:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 719              		.loc 1 468 1 is_stmt 1 view -0
+ 720              		.cfi_startproc
+ 721              		@ args = 0, pretend = 0, frame = 0
+ 722              		@ frame_needed = 0, uses_anonymous_args = 0
+ 723              		@ link register save eliminated.
+ 469:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t regval;
+ 724              		.loc 1 469 3 view .LVU242
+ 470:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t linepos;
+ 725              		.loc 1 470 3 view .LVU243
+ 471:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+ 726              		.loc 1 471 3 view .LVU244
+ 472:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 473:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check parameters */
+ 474:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(hexti->Line));
+ 727              		.loc 1 474 3 view .LVU245
+ 475:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_CONFIG_LINE(hexti->Line));
+ 728              		.loc 1 475 3 view .LVU246
+ 476:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_PENDING_EDGE(Edge));
+ 729              		.loc 1 476 3 view .LVU247
+ 477:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 478:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Compute line mask */
+ 479:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   linepos = (hexti->Line & EXTI_PIN_MASK);
+ 730              		.loc 1 479 3 view .LVU248
+ 731              		.loc 1 479 11 is_stmt 0 view .LVU249
+ 732 0000 1F22     		movs	r2, #31
+ 480:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 481:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 482:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* return 1 if bit is set else 0 */
+ 483:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   regval = ((EXTI->PR & maskline) >> linepos);
+ 484:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return regval;
+ 485:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 733              		.loc 1 485 1 view .LVU250
+ 734              		@ sp needed
+ 479:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 735              		.loc 1 479 11 view .LVU251
+ 736 0002 0368     		ldr	r3, [r0]
+ 737 0004 1340     		ands	r3, r2
+ 738              	.LVL53:
+ 480:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << linepos);
+ 739              		.loc 1 480 3 is_stmt 1 view .LVU252
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 24
+
+
+ 483:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return regval;
+ 740              		.loc 1 483 3 view .LVU253
+ 483:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return regval;
+ 741              		.loc 1 483 18 is_stmt 0 view .LVU254
+ 742 0006 034A     		ldr	r2, .L67
+ 743 0008 5069     		ldr	r0, [r2, #20]
+ 744              	.LVL54:
+ 484:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 745              		.loc 1 484 3 is_stmt 1 view .LVU255
+ 480:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 746              		.loc 1 480 12 is_stmt 0 view .LVU256
+ 747 000a 0122     		movs	r2, #1
+ 748 000c 9A40     		lsls	r2, r2, r3
+ 749              	.LVL55:
+ 483:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return regval;
+ 750              		.loc 1 483 23 view .LVU257
+ 751 000e 1040     		ands	r0, r2
+ 752              	.LVL56:
+ 483:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   return regval;
+ 753              		.loc 1 483 10 view .LVU258
+ 754 0010 D840     		lsrs	r0, r0, r3
+ 755              	.LVL57:
+ 756              		.loc 1 485 1 view .LVU259
+ 757 0012 7047     		bx	lr
+ 758              	.L68:
+ 759              		.align	2
+ 760              	.L67:
+ 761 0014 00040140 		.word	1073808384
+ 762              		.cfi_endproc
+ 763              	.LFE46:
+ 765              		.section	.text.HAL_EXTI_ClearPending,"ax",%progbits
+ 766              		.align	1
+ 767              		.p2align 2,,3
+ 768              		.global	HAL_EXTI_ClearPending
+ 769              		.syntax unified
+ 770              		.code	16
+ 771              		.thumb_func
+ 773              	HAL_EXTI_ClearPending:
+ 774              	.LVL58:
+ 775              	.LFB47:
+ 486:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 487:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ 488:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Clear interrupt pending bit of a dedicated line.
+ 489:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 490:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  Edge Specify which pending edge as to be clear.
+ 491:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *         This parameter can be one of the following values:
+ 492:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *           @arg @ref EXTI_TRIGGER_RISING_FALLING
+ 493:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   *         This parameter is kept for compatibility with other series.
+ 494:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval None.
+ 495:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 496:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** void HAL_EXTI_ClearPending(EXTI_HandleTypeDef *hexti, uint32_t Edge)
+ 497:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 776              		.loc 1 497 1 is_stmt 1 view -0
+ 777              		.cfi_startproc
+ 778              		@ args = 0, pretend = 0, frame = 0
+ 779              		@ frame_needed = 0, uses_anonymous_args = 0
+ 780              		@ link register save eliminated.
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 25
+
+
+ 498:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+ 781              		.loc 1 498 3 view .LVU261
+ 499:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 500:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check parameters */
+ 501:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(hexti->Line));
+ 782              		.loc 1 501 3 view .LVU262
+ 502:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_CONFIG_LINE(hexti->Line));
+ 783              		.loc 1 502 3 view .LVU263
+ 503:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_PENDING_EDGE(Edge));
+ 784              		.loc 1 503 3 view .LVU264
+ 504:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 505:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Compute line mask */
+ 506:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << (hexti->Line & EXTI_PIN_MASK));
+ 785              		.loc 1 506 3 view .LVU265
+ 786              		.loc 1 506 35 is_stmt 0 view .LVU266
+ 787 0000 1F23     		movs	r3, #31
+ 507:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 508:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Clear Pending bit */
+ 509:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   EXTI->PR =  maskline;
+ 510:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 788              		.loc 1 510 1 view .LVU267
+ 789              		@ sp needed
+ 506:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 790              		.loc 1 506 35 view .LVU268
+ 791 0002 0268     		ldr	r2, [r0]
+ 792 0004 1A40     		ands	r2, r3
+ 506:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 793              		.loc 1 506 12 view .LVU269
+ 794 0006 1E3B     		subs	r3, r3, #30
+ 795 0008 9340     		lsls	r3, r3, r2
+ 796              	.LVL59:
+ 509:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 797              		.loc 1 509 3 is_stmt 1 view .LVU270
+ 509:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 798              		.loc 1 509 12 is_stmt 0 view .LVU271
+ 799 000a 014A     		ldr	r2, .L70
+ 800 000c 5361     		str	r3, [r2, #20]
+ 801              		.loc 1 510 1 view .LVU272
+ 802 000e 7047     		bx	lr
+ 803              	.L71:
+ 804              		.align	2
+ 805              	.L70:
+ 806 0010 00040140 		.word	1073808384
+ 807              		.cfi_endproc
+ 808              	.LFE47:
+ 810              		.section	.text.HAL_EXTI_GenerateSWI,"ax",%progbits
+ 811              		.align	1
+ 812              		.p2align 2,,3
+ 813              		.global	HAL_EXTI_GenerateSWI
+ 814              		.syntax unified
+ 815              		.code	16
+ 816              		.thumb_func
+ 818              	HAL_EXTI_GenerateSWI:
+ 819              	.LVL60:
+ 820              	.LFB48:
+ 511:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 512:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** /**
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 26
+
+
+ 513:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @brief  Generate a software interrupt for a dedicated line.
+ 514:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @param  hexti Exti handle.
+ 515:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   * @retval None.
+ 516:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   */
+ 517:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** void HAL_EXTI_GenerateSWI(EXTI_HandleTypeDef *hexti)
+ 518:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** {
+ 821              		.loc 1 518 1 is_stmt 1 view -0
+ 822              		.cfi_startproc
+ 823              		@ args = 0, pretend = 0, frame = 0
+ 824              		@ frame_needed = 0, uses_anonymous_args = 0
+ 825              		@ link register save eliminated.
+ 519:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   uint32_t maskline;
+ 826              		.loc 1 519 3 view .LVU274
+ 520:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 521:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Check parameters */
+ 522:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_LINE(hexti->Line));
+ 827              		.loc 1 522 3 view .LVU275
+ 523:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   assert_param(IS_EXTI_CONFIG_LINE(hexti->Line));
+ 828              		.loc 1 523 3 view .LVU276
+ 524:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 525:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Compute line mask */
+ 526:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   maskline = (1uL << (hexti->Line & EXTI_PIN_MASK));
+ 829              		.loc 1 526 3 view .LVU277
+ 830              		.loc 1 526 35 is_stmt 0 view .LVU278
+ 831 0000 1F23     		movs	r3, #31
+ 527:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 528:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   /* Generate Software interrupt */
+ 529:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c ****   EXTI->SWIER = maskline;
+ 530:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 832              		.loc 1 530 1 view .LVU279
+ 833              		@ sp needed
+ 526:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 834              		.loc 1 526 35 view .LVU280
+ 835 0002 0268     		ldr	r2, [r0]
+ 836 0004 1A40     		ands	r2, r3
+ 526:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** 
+ 837              		.loc 1 526 12 view .LVU281
+ 838 0006 1E3B     		subs	r3, r3, #30
+ 839 0008 9340     		lsls	r3, r3, r2
+ 840              	.LVL61:
+ 529:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 841              		.loc 1 529 3 is_stmt 1 view .LVU282
+ 529:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c **** }
+ 842              		.loc 1 529 15 is_stmt 0 view .LVU283
+ 843 000a 014A     		ldr	r2, .L73
+ 844 000c 1361     		str	r3, [r2, #16]
+ 845              		.loc 1 530 1 view .LVU284
+ 846 000e 7047     		bx	lr
+ 847              	.L74:
+ 848              		.align	2
+ 849              	.L73:
+ 850 0010 00040140 		.word	1073808384
+ 851              		.cfi_endproc
+ 852              	.LFE48:
+ 854              		.text
+ 855              	.Letext0:
+ 856              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 27
+
+
+ 857              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 858              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 859              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 860              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_exti.h"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s 			page 28
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32f0xx_hal_exti.c
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:18     .text.HAL_EXTI_SetConfigLine:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:25     .text.HAL_EXTI_SetConfigLine:0000000000000000 HAL_EXTI_SetConfigLine
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:237    .text.HAL_EXTI_SetConfigLine:00000000000000b0 $d
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:243    .text.HAL_EXTI_GetConfigLine:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:250    .text.HAL_EXTI_GetConfigLine:0000000000000000 HAL_EXTI_GetConfigLine
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:408    .text.HAL_EXTI_GetConfigLine:0000000000000080 $d
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:414    .text.HAL_EXTI_ClearConfigLine:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:421    .text.HAL_EXTI_ClearConfigLine:0000000000000000 HAL_EXTI_ClearConfigLine
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:554    .text.HAL_EXTI_ClearConfigLine:0000000000000060 $d
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:560    .text.HAL_EXTI_RegisterCallback:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:567    .text.HAL_EXTI_RegisterCallback:0000000000000000 HAL_EXTI_RegisterCallback
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:601    .text.HAL_EXTI_GetHandle:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:608    .text.HAL_EXTI_GetHandle:0000000000000000 HAL_EXTI_GetHandle
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:643    .text.HAL_EXTI_IRQHandler:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:650    .text.HAL_EXTI_IRQHandler:0000000000000000 HAL_EXTI_IRQHandler
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:704    .text.HAL_EXTI_IRQHandler:0000000000000020 $d
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:709    .text.HAL_EXTI_GetPending:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:716    .text.HAL_EXTI_GetPending:0000000000000000 HAL_EXTI_GetPending
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:761    .text.HAL_EXTI_GetPending:0000000000000014 $d
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:766    .text.HAL_EXTI_ClearPending:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:773    .text.HAL_EXTI_ClearPending:0000000000000000 HAL_EXTI_ClearPending
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:806    .text.HAL_EXTI_ClearPending:0000000000000010 $d
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:811    .text.HAL_EXTI_GenerateSWI:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:818    .text.HAL_EXTI_GenerateSWI:0000000000000000 HAL_EXTI_GenerateSWI
+C:\Users\rokko\AppData\Local\Temp\ccEkB0nu.s:850    .text.HAL_EXTI_GenerateSWI:0000000000000010 $d
+
+NO UNDEFINED SYMBOLS

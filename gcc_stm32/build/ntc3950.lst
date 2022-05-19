@@ -1,0 +1,341 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"ntc3950.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__aeabi_fcmplt
+  18              		.global	__aeabi_f2d
+  19              		.global	__aeabi_dsub
+  20              		.global	__aeabi_d2iz
+  21              		.global	__aeabi_dadd
+  22              		.section	.text.round_float,"ax",%progbits
+  23              		.align	1
+  24              		.p2align 2,,3
+  25              		.global	round_float
+  26              		.syntax unified
+  27              		.code	16
+  28              		.thumb_func
+  30              	round_float:
+  31              	.LVL0:
+  32              	.LFB0:
+  33              		.file 1 "Src/ntc3950.c"
+   1:Src/ntc3950.c **** #include "ntc3950.h"
+   2:Src/ntc3950.c **** 
+   3:Src/ntc3950.c **** int16_t round_float(float val)
+   4:Src/ntc3950.c **** {
+  34              		.loc 1 4 1 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+   5:Src/ntc3950.c ****   if (val < 0)
+  38              		.loc 1 5 3 view .LVU1
+   4:Src/ntc3950.c ****   if (val < 0)
+  39              		.loc 1 4 1 is_stmt 0 view .LVU2
+  40 0000 10B5     		push	{r4, lr}
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 8
+  43              		.cfi_offset 4, -8
+  44              		.cfi_offset 14, -4
+  45              		.loc 1 5 6 view .LVU3
+  46 0002 0021     		movs	r1, #0
+   4:Src/ntc3950.c ****   if (val < 0)
+  47              		.loc 1 4 1 view .LVU4
+  48 0004 041C     		adds	r4, r0, #0
+  49              		.loc 1 5 6 view .LVU5
+  50 0006 FFF7FEFF 		bl	__aeabi_fcmplt
+  51              	.LVL1:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 2
+
+
+  52              		.loc 1 5 6 view .LVU6
+  53 000a 0028     		cmp	r0, #0
+  54 000c 0AD1     		bne	.L8
+   6:Src/ntc3950.c ****     return (int16_t)(val - 0.5);
+   7:Src/ntc3950.c ****   else
+   8:Src/ntc3950.c ****     return (int16_t)(val + 0.5);
+  55              		.loc 1 8 5 is_stmt 1 view .LVU7
+  56              		.loc 1 8 26 is_stmt 0 view .LVU8
+  57 000e 201C     		adds	r0, r4, #0
+  58 0010 FFF7FEFF 		bl	__aeabi_f2d
+  59              	.LVL2:
+  60 0014 0022     		movs	r2, #0
+  61 0016 094B     		ldr	r3, .L9
+  62 0018 FFF7FEFF 		bl	__aeabi_dadd
+  63              	.LVL3:
+  64              		.loc 1 8 12 view .LVU9
+  65 001c FFF7FEFF 		bl	__aeabi_d2iz
+  66              	.LVL4:
+  67 0020 00B2     		sxth	r0, r0
+  68              	.L4:
+   9:Src/ntc3950.c **** }
+  69              		.loc 1 9 1 view .LVU10
+  70              		@ sp needed
+  71              	.LVL5:
+  72              		.loc 1 9 1 view .LVU11
+  73 0022 10BD     		pop	{r4, pc}
+  74              	.LVL6:
+  75              	.L8:
+   6:Src/ntc3950.c ****     return (int16_t)(val - 0.5);
+  76              		.loc 1 6 5 is_stmt 1 view .LVU12
+   6:Src/ntc3950.c ****     return (int16_t)(val - 0.5);
+  77              		.loc 1 6 26 is_stmt 0 view .LVU13
+  78 0024 201C     		adds	r0, r4, #0
+  79 0026 FFF7FEFF 		bl	__aeabi_f2d
+  80              	.LVL7:
+  81 002a 0022     		movs	r2, #0
+  82 002c 034B     		ldr	r3, .L9
+  83 002e FFF7FEFF 		bl	__aeabi_dsub
+  84              	.LVL8:
+   6:Src/ntc3950.c ****     return (int16_t)(val - 0.5);
+  85              		.loc 1 6 12 view .LVU14
+  86 0032 FFF7FEFF 		bl	__aeabi_d2iz
+  87              	.LVL9:
+  88 0036 00B2     		sxth	r0, r0
+  89 0038 F3E7     		b	.L4
+  90              	.L10:
+  91 003a C046     		.align	2
+  92              	.L9:
+  93 003c 0000E03F 		.word	1071644672
+  94              		.cfi_endproc
+  95              	.LFE0:
+  97              		.global	__aeabi_ui2f
+  98              		.global	__aeabi_fdiv
+  99              		.global	__aeabi_fsub
+ 100              		.global	__aeabi_d2f
+ 101              		.section	.text.ntc3950_read_temperature,"ax",%progbits
+ 102              		.align	1
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 3
+
+
+ 103              		.p2align 2,,3
+ 104              		.global	ntc3950_read_temperature
+ 105              		.syntax unified
+ 106              		.code	16
+ 107              		.thumb_func
+ 109              	ntc3950_read_temperature:
+ 110              	.LVL10:
+ 111              	.LFB1:
+  10:Src/ntc3950.c **** 
+  11:Src/ntc3950.c **** float ntc3950_read_temperature(uint16_t adc_value)
+  12:Src/ntc3950.c **** {
+ 112              		.loc 1 12 1 is_stmt 1 view -0
+ 113              		.cfi_startproc
+ 114              		@ args = 0, pretend = 0, frame = 0
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+  13:Src/ntc3950.c ****   float average = 0;
+ 116              		.loc 1 13 3 view .LVU16
+  14:Src/ntc3950.c ****   float temperature = -123;
+ 117              		.loc 1 14 3 view .LVU17
+  15:Src/ntc3950.c **** 
+  16:Src/ntc3950.c ****   if (adc_value > TEMPERATURE_ADC_MIN && adc_value < TEMPERATURE_ADC_MAX)
+ 118              		.loc 1 16 3 view .LVU18
+ 119              		.loc 1 16 39 is_stmt 0 view .LVU19
+ 120 0000 0300     		movs	r3, r0
+ 121              		.loc 1 16 6 view .LVU20
+ 122 0002 1C4A     		ldr	r2, .L15
+ 123              		.loc 1 16 39 view .LVU21
+ 124 0004 0B3B     		subs	r3, r3, #11
+ 125              		.loc 1 16 6 view .LVU22
+ 126 0006 9BB2     		uxth	r3, r3
+  12:Src/ntc3950.c ****   float average = 0;
+ 127              		.loc 1 12 1 view .LVU23
+ 128 0008 10B5     		push	{r4, lr}
+ 129              	.LCFI1:
+ 130              		.cfi_def_cfa_offset 8
+ 131              		.cfi_offset 4, -8
+ 132              		.cfi_offset 14, -4
+ 133              		.loc 1 16 6 view .LVU24
+ 134 000a 9342     		cmp	r3, r2
+ 135 000c 01D9     		bls	.L14
+  14:Src/ntc3950.c ****   float temperature = -123;
+ 136              		.loc 1 14 9 view .LVU25
+ 137 000e 1A48     		ldr	r0, .L15+4
+ 138              	.LVL11:
+  17:Src/ntc3950.c ****   {
+  18:Src/ntc3950.c ****     average = adc_value;
+  19:Src/ntc3950.c ****     average = ((ADC_RESOLUTION - 1) / average) - 1;
+  20:Src/ntc3950.c ****     average = SERIES_RESISTOR / average;
+  21:Src/ntc3950.c **** 
+  22:Src/ntc3950.c ****     //Calculate temperature using the Beta Factor equation
+  23:Src/ntc3950.c ****     temperature = average / TERMISTOR_NOMINAL;            // (R/Ro)
+  24:Src/ntc3950.c ****     temperature = log(temperature);                       // ln(R/Ro)
+  25:Src/ntc3950.c ****     temperature /= BETA_VALUE;                            // 1/B * ln(R/Ro)
+  26:Src/ntc3950.c ****     temperature += 1.0 / (TEMPERATURE_NOMINAL + 273.15);  // + (1/To)
+  27:Src/ntc3950.c ****     temperature = 1.0 / temperature;                      // Invert the value
+  28:Src/ntc3950.c ****     temperature -= 273.15;                                // Convert it to Celsius
+  29:Src/ntc3950.c ****   }
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 4
+
+
+  30:Src/ntc3950.c **** 
+  31:Src/ntc3950.c ****   return temperature;
+ 139              		.loc 1 31 3 is_stmt 1 view .LVU26
+ 140              	.L11:
+  32:Src/ntc3950.c **** }
+ 141              		.loc 1 32 1 is_stmt 0 view .LVU27
+ 142              		@ sp needed
+ 143 0010 10BD     		pop	{r4, pc}
+ 144              	.LVL12:
+ 145              	.L14:
+  18:Src/ntc3950.c ****     average = ((ADC_RESOLUTION - 1) / average) - 1;
+ 146              		.loc 1 18 5 is_stmt 1 view .LVU28
+  19:Src/ntc3950.c ****     average = SERIES_RESISTOR / average;
+ 147              		.loc 1 19 5 view .LVU29
+  18:Src/ntc3950.c ****     average = ((ADC_RESOLUTION - 1) / average) - 1;
+ 148              		.loc 1 18 13 is_stmt 0 view .LVU30
+ 149 0012 FFF7FEFF 		bl	__aeabi_ui2f
+ 150              	.LVL13:
+  18:Src/ntc3950.c ****     average = ((ADC_RESOLUTION - 1) / average) - 1;
+ 151              		.loc 1 18 13 view .LVU31
+ 152 0016 011C     		adds	r1, r0, #0
+  19:Src/ntc3950.c ****     average = SERIES_RESISTOR / average;
+ 153              		.loc 1 19 37 view .LVU32
+ 154 0018 1848     		ldr	r0, .L15+8
+ 155 001a FFF7FEFF 		bl	__aeabi_fdiv
+ 156              	.LVL14:
+  19:Src/ntc3950.c ****     average = SERIES_RESISTOR / average;
+ 157              		.loc 1 19 13 view .LVU33
+ 158 001e FE21     		movs	r1, #254
+ 159 0020 8905     		lsls	r1, r1, #22
+ 160 0022 FFF7FEFF 		bl	__aeabi_fsub
+ 161              	.LVL15:
+ 162 0026 011C     		adds	r1, r0, #0
+ 163              	.LVL16:
+  20:Src/ntc3950.c **** 
+ 164              		.loc 1 20 5 is_stmt 1 view .LVU34
+  23:Src/ntc3950.c ****     temperature = log(temperature);                       // ln(R/Ro)
+ 165              		.loc 1 23 5 view .LVU35
+  24:Src/ntc3950.c ****     temperature /= BETA_VALUE;                            // 1/B * ln(R/Ro)
+ 166              		.loc 1 24 5 view .LVU36
+  20:Src/ntc3950.c **** 
+ 167              		.loc 1 20 13 is_stmt 0 view .LVU37
+ 168 0028 1548     		ldr	r0, .L15+12
+ 169              	.LVL17:
+  20:Src/ntc3950.c **** 
+ 170              		.loc 1 20 13 view .LVU38
+ 171 002a FFF7FEFF 		bl	__aeabi_fdiv
+ 172              	.LVL18:
+  23:Src/ntc3950.c ****     temperature = log(temperature);                       // ln(R/Ro)
+ 173              		.loc 1 23 17 view .LVU39
+ 174 002e 1449     		ldr	r1, .L15+12
+ 175 0030 FFF7FEFF 		bl	__aeabi_fdiv
+ 176              	.LVL19:
+  24:Src/ntc3950.c ****     temperature /= BETA_VALUE;                            // 1/B * ln(R/Ro)
+ 177              		.loc 1 24 19 view .LVU40
+ 178 0034 FFF7FEFF 		bl	__aeabi_f2d
+ 179              	.LVL20:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 5
+
+
+ 180 0038 FFF7FEFF 		bl	log
+ 181              	.LVL21:
+  24:Src/ntc3950.c ****     temperature /= BETA_VALUE;                            // 1/B * ln(R/Ro)
+ 182              		.loc 1 24 17 view .LVU41
+ 183 003c FFF7FEFF 		bl	__aeabi_d2f
+ 184              	.LVL22:
+  25:Src/ntc3950.c ****     temperature += 1.0 / (TEMPERATURE_NOMINAL + 273.15);  // + (1/To)
+ 185              		.loc 1 25 5 is_stmt 1 view .LVU42
+  26:Src/ntc3950.c ****     temperature = 1.0 / temperature;                      // Invert the value
+ 186              		.loc 1 26 5 view .LVU43
+  25:Src/ntc3950.c ****     temperature += 1.0 / (TEMPERATURE_NOMINAL + 273.15);  // + (1/To)
+ 187              		.loc 1 25 17 is_stmt 0 view .LVU44
+ 188 0040 1049     		ldr	r1, .L15+16
+ 189 0042 FFF7FEFF 		bl	__aeabi_fdiv
+ 190              	.LVL23:
+  26:Src/ntc3950.c ****     temperature = 1.0 / temperature;                      // Invert the value
+ 191              		.loc 1 26 17 view .LVU45
+ 192 0046 FFF7FEFF 		bl	__aeabi_f2d
+ 193              	.LVL24:
+ 194 004a 0F4A     		ldr	r2, .L15+20
+ 195 004c 0F4B     		ldr	r3, .L15+24
+ 196 004e FFF7FEFF 		bl	__aeabi_dadd
+ 197              	.LVL25:
+ 198 0052 FFF7FEFF 		bl	__aeabi_d2f
+ 199              	.LVL26:
+ 200 0056 011C     		adds	r1, r0, #0
+ 201              	.LVL27:
+  27:Src/ntc3950.c ****     temperature -= 273.15;                                // Convert it to Celsius
+ 202              		.loc 1 27 5 is_stmt 1 view .LVU46
+  28:Src/ntc3950.c ****   }
+ 203              		.loc 1 28 5 view .LVU47
+  27:Src/ntc3950.c ****     temperature -= 273.15;                                // Convert it to Celsius
+ 204              		.loc 1 27 17 is_stmt 0 view .LVU48
+ 205 0058 FE20     		movs	r0, #254
+ 206              	.LVL28:
+  27:Src/ntc3950.c ****     temperature -= 273.15;                                // Convert it to Celsius
+ 207              		.loc 1 27 17 view .LVU49
+ 208 005a 8005     		lsls	r0, r0, #22
+ 209 005c FFF7FEFF 		bl	__aeabi_fdiv
+ 210              	.LVL29:
+  28:Src/ntc3950.c ****   }
+ 211              		.loc 1 28 17 view .LVU50
+ 212 0060 FFF7FEFF 		bl	__aeabi_f2d
+ 213              	.LVL30:
+ 214 0064 0A4A     		ldr	r2, .L15+28
+ 215 0066 0B4B     		ldr	r3, .L15+32
+ 216 0068 FFF7FEFF 		bl	__aeabi_dsub
+ 217              	.LVL31:
+ 218 006c FFF7FEFF 		bl	__aeabi_d2f
+ 219              	.LVL32:
+  28:Src/ntc3950.c ****   }
+ 220              		.loc 1 28 17 view .LVU51
+ 221 0070 CEE7     		b	.L11
+ 222              	.L16:
+ 223 0072 C046     		.align	2
+ 224              	.L15:
+ 225 0074 940F0000 		.word	3988
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 6
+
+
+ 226 0078 0000F6C2 		.word	-1024065536
+ 227 007c 00F07F45 		.word	1166012416
+ 228 0080 00401C46 		.word	1176256512
+ 229 0084 00E07645 		.word	1165418496
+ 230 0088 83DBB5DC 		.word	-592061565
+ 231 008c E1796B3F 		.word	1064008161
+ 232 0090 66666666 		.word	1717986918
+ 233 0094 66127140 		.word	1081152102
+ 234              		.cfi_endproc
+ 235              	.LFE1:
+ 237              		.text
+ 238              	.Letext0:
+ 239              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 240              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 241              		.file 4 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ntc3950.c
+C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s:23     .text.round_float:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s:30     .text.round_float:0000000000000000 round_float
+C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s:93     .text.round_float:000000000000003c $d
+C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s:102    .text.ntc3950_read_temperature:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s:109    .text.ntc3950_read_temperature:0000000000000000 ntc3950_read_temperature
+C:\Users\rokko\AppData\Local\Temp\cckk2g2c.s:225    .text.ntc3950_read_temperature:0000000000000074 $d
+
+UNDEFINED SYMBOLS
+__aeabi_fcmplt
+__aeabi_f2d
+__aeabi_dsub
+__aeabi_d2iz
+__aeabi_dadd
+__aeabi_ui2f
+__aeabi_fdiv
+__aeabi_fsub
+__aeabi_d2f
+log

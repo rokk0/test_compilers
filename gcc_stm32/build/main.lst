@@ -1,0 +1,1121 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	__aeabi_uidiv
+  18              		.section	.text.HAL_ADC_ConvCpltCallback,"ax",%progbits
+  19              		.align	1
+  20              		.p2align 2,,3
+  21              		.global	HAL_ADC_ConvCpltCallback
+  22              		.syntax unified
+  23              		.code	16
+  24              		.thumb_func
+  26              	HAL_ADC_ConvCpltCallback:
+  27              	.LVL0:
+  28              	.LFB40:
+  29              		.file 1 "Src/main.c"
+   1:Src/main.c    **** /* USER CODE BEGIN Header */
+   2:Src/main.c    **** /**
+   3:Src/main.c    ****   ******************************************************************************
+   4:Src/main.c    ****   * @file           : main.c
+   5:Src/main.c    ****   * @brief          : Main program body
+   6:Src/main.c    ****   ******************************************************************************
+   7:Src/main.c    ****   * @attention
+   8:Src/main.c    ****   *
+   9:Src/main.c    ****   * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  10:Src/main.c    ****   * All rights reserved.</center></h2>
+  11:Src/main.c    ****   *
+  12:Src/main.c    ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/main.c    ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/main.c    ****   * License. You may obtain a copy of the License at:
+  15:Src/main.c    ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/main.c    ****   *
+  17:Src/main.c    ****   ******************************************************************************
+  18:Src/main.c    ****   */
+  19:Src/main.c    **** /* USER CODE END Header */
+  20:Src/main.c    **** /* Includes ------------------------------------------------------------------*/
+  21:Src/main.c    **** #include "main.h"
+  22:Src/main.c    **** #include "adc.h"
+  23:Src/main.c    **** #include "dma.h"
+  24:Src/main.c    **** #include "iwdg.h"
+  25:Src/main.c    **** #include "tim.h"
+  26:Src/main.c    **** #include "gpio.h"
+  27:Src/main.c    **** 
+  28:Src/main.c    **** /* Private includes ----------------------------------------------------------*/
+  29:Src/main.c    **** /* USER CODE BEGIN Includes */
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 2
+
+
+  30:Src/main.c    **** #include <stdbool.h>
+  31:Src/main.c    **** #include <stdint.h>
+  32:Src/main.c    **** 
+  33:Src/main.c    **** #include "ntc3950.h"
+  34:Src/main.c    **** /* USER CODE END Includes */
+  35:Src/main.c    **** 
+  36:Src/main.c    **** /* Private typedef -----------------------------------------------------------*/
+  37:Src/main.c    **** /* USER CODE BEGIN PTD */
+  38:Src/main.c    **** 
+  39:Src/main.c    **** /* USER CODE END PTD */
+  40:Src/main.c    **** 
+  41:Src/main.c    **** /* Private define ------------------------------------------------------------*/
+  42:Src/main.c    **** /* USER CODE BEGIN PD */
+  43:Src/main.c    **** #define SECONDS                   60      // 1 minute
+  44:Src/main.c    **** #define M_SECONDS                 1000    // 1 second
+  45:Src/main.c    **** 
+  46:Src/main.c    **** #define ADC_MEASUREMENT_PERIOD    100     // us
+  47:Src/main.c    **** #define ADC_MEASUREMENTS          100     // 100 * 100 us = 10 ms period between ADC averaged measu
+  48:Src/main.c    **** 
+  49:Src/main.c    **** #define REGULATOR_NTC_FAULT       -123
+  50:Src/main.c    **** /* USER CODE END PD */
+  51:Src/main.c    **** 
+  52:Src/main.c    **** /* Private macro -------------------------------------------------------------*/
+  53:Src/main.c    **** /* USER CODE BEGIN PM */
+  54:Src/main.c    **** 
+  55:Src/main.c    **** /* USER CODE END PM */
+  56:Src/main.c    **** 
+  57:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  58:Src/main.c    **** 
+  59:Src/main.c    **** /* USER CODE BEGIN PV */
+  60:Src/main.c    **** static volatile uint32_t heat_up_timer = 0;
+  61:Src/main.c    **** static uint8_t heat_up_time = 0;
+  62:Src/main.c    **** 
+  63:Src/main.c    **** static float set_temperature = 0.0;
+  64:Src/main.c    **** static float cur_temperature = 0.0;
+  65:Src/main.c    **** 
+  66:Src/main.c    **** static volatile uint16_t adc_dma[1];
+  67:Src/main.c    **** static volatile uint8_t adc_measurements = 0;
+  68:Src/main.c    **** static volatile uint32_t adc_sum = 0;
+  69:Src/main.c    **** static volatile uint16_t adc_avg = 0;
+  70:Src/main.c    **** 
+  71:Src/main.c    **** static volatile bool temp_sensor_fault = false;
+  72:Src/main.c    **** static volatile bool temp_sensor_loose = false;
+  73:Src/main.c    **** /* USER CODE END PV */
+  74:Src/main.c    **** 
+  75:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  76:Src/main.c    **** void SystemClock_Config(void);
+  77:Src/main.c    **** /* USER CODE BEGIN PFP */
+  78:Src/main.c    **** 
+  79:Src/main.c    **** /* USER CODE END PFP */
+  80:Src/main.c    **** 
+  81:Src/main.c    **** /* Private user code ---------------------------------------------------------*/
+  82:Src/main.c    **** /* USER CODE BEGIN 0 */
+  83:Src/main.c    **** void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+  84:Src/main.c    **** {
+  30              		.loc 1 84 1 view -0
+  31              		.cfi_startproc
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 3
+
+
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  85:Src/main.c    ****   adc_sum += adc_dma[0];
+  34              		.loc 1 85 3 view .LVU1
+  84:Src/main.c    ****   adc_sum += adc_dma[0];
+  35              		.loc 1 84 1 is_stmt 0 view .LVU2
+  36 0000 70B5     		push	{r4, r5, r6, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 16
+  39              		.cfi_offset 4, -16
+  40              		.cfi_offset 5, -12
+  41              		.cfi_offset 6, -8
+  42              		.cfi_offset 14, -4
+  43              		.loc 1 85 21 view .LVU3
+  44 0002 0D4B     		ldr	r3, .L4
+  45              		.loc 1 85 11 view .LVU4
+  46 0004 0D4D     		ldr	r5, .L4+4
+  47              		.loc 1 85 21 view .LVU5
+  48 0006 1B88     		ldrh	r3, [r3]
+  49              		.loc 1 85 11 view .LVU6
+  50 0008 2A68     		ldr	r2, [r5]
+  86:Src/main.c    ****   adc_measurements++;
+  51              		.loc 1 86 19 view .LVU7
+  52 000a 0D4C     		ldr	r4, .L4+8
+  85:Src/main.c    ****   adc_sum += adc_dma[0];
+  53              		.loc 1 85 11 view .LVU8
+  54 000c 9B18     		adds	r3, r3, r2
+  55 000e 2B60     		str	r3, [r5]
+  56              		.loc 1 86 3 is_stmt 1 view .LVU9
+  57              		.loc 1 86 19 is_stmt 0 view .LVU10
+  58 0010 2378     		ldrb	r3, [r4]
+  59 0012 0133     		adds	r3, r3, #1
+  60 0014 DBB2     		uxtb	r3, r3
+  61 0016 2370     		strb	r3, [r4]
+  87:Src/main.c    **** 
+  88:Src/main.c    ****   if (adc_measurements >= ADC_MEASUREMENTS)
+  62              		.loc 1 88 3 is_stmt 1 view .LVU11
+  63              		.loc 1 88 24 is_stmt 0 view .LVU12
+  64 0018 2378     		ldrb	r3, [r4]
+  65              		.loc 1 88 6 view .LVU13
+  66 001a 632B     		cmp	r3, #99
+  67 001c 0AD9     		bls	.L1
+  89:Src/main.c    ****   {
+  90:Src/main.c    ****     adc_avg = adc_sum / adc_measurements;
+  68              		.loc 1 90 5 is_stmt 1 view .LVU14
+  69              		.loc 1 90 23 is_stmt 0 view .LVU15
+  70 001e 2868     		ldr	r0, [r5]
+  71              	.LVL1:
+  72              		.loc 1 90 23 view .LVU16
+  73 0020 2178     		ldrb	r1, [r4]
+  74 0022 C9B2     		uxtb	r1, r1
+  75 0024 FFF7FEFF 		bl	__aeabi_uidiv
+  76              	.LVL2:
+  77              		.loc 1 90 13 view .LVU17
+  78 0028 064B     		ldr	r3, .L4+12
+  79 002a 80B2     		uxth	r0, r0
+  80 002c 1880     		strh	r0, [r3]
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 4
+
+
+  91:Src/main.c    ****     adc_measurements = 0;
+  81              		.loc 1 91 5 is_stmt 1 view .LVU18
+  82              		.loc 1 91 22 is_stmt 0 view .LVU19
+  83 002e 0023     		movs	r3, #0
+  84 0030 2370     		strb	r3, [r4]
+  92:Src/main.c    ****     adc_sum = 0;
+  85              		.loc 1 92 5 is_stmt 1 view .LVU20
+  86              		.loc 1 92 13 is_stmt 0 view .LVU21
+  87 0032 2B60     		str	r3, [r5]
+  88              	.L1:
+  93:Src/main.c    ****   }
+  94:Src/main.c    **** }
+  89              		.loc 1 94 1 view .LVU22
+  90              		@ sp needed
+  91 0034 70BD     		pop	{r4, r5, r6, pc}
+  92              	.L5:
+  93 0036 C046     		.align	2
+  94              	.L4:
+  95 0038 00000000 		.word	.LANCHOR0
+  96 003c 00000000 		.word	.LANCHOR1
+  97 0040 00000000 		.word	.LANCHOR2
+  98 0044 00000000 		.word	.LANCHOR3
+  99              		.cfi_endproc
+ 100              	.LFE40:
+ 102              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
+ 103              		.align	1
+ 104              		.p2align 2,,3
+ 105              		.global	HAL_TIM_PeriodElapsedCallback
+ 106              		.syntax unified
+ 107              		.code	16
+ 108              		.thumb_func
+ 110              	HAL_TIM_PeriodElapsedCallback:
+ 111              	.LVL3:
+ 112              	.LFB41:
+  95:Src/main.c    **** 
+  96:Src/main.c    **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+  97:Src/main.c    **** {
+ 113              		.loc 1 97 1 is_stmt 1 view -0
+ 114              		.cfi_startproc
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 0, uses_anonymous_args = 0
+ 117              		@ link register save eliminated.
+  98:Src/main.c    ****   if (htim->Instance == TIM1) // 1 ms
+ 118              		.loc 1 98 3 view .LVU24
+ 119              		.loc 1 98 6 is_stmt 0 view .LVU25
+ 120 0000 044B     		ldr	r3, .L9
+ 121 0002 0268     		ldr	r2, [r0]
+ 122 0004 9A42     		cmp	r2, r3
+ 123 0006 00D0     		beq	.L8
+ 124              	.L6:
+  99:Src/main.c    ****   {
+ 100:Src/main.c    ****     heat_up_timer++;
+ 101:Src/main.c    ****   }
+ 102:Src/main.c    **** }
+ 125              		.loc 1 102 1 view .LVU26
+ 126              		@ sp needed
+ 127 0008 7047     		bx	lr
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 5
+
+
+ 128              	.L8:
+ 100:Src/main.c    ****   }
+ 129              		.loc 1 100 5 is_stmt 1 view .LVU27
+ 100:Src/main.c    ****   }
+ 130              		.loc 1 100 18 is_stmt 0 view .LVU28
+ 131 000a 034A     		ldr	r2, .L9+4
+ 132 000c 1368     		ldr	r3, [r2]
+ 133 000e 0133     		adds	r3, r3, #1
+ 134 0010 1360     		str	r3, [r2]
+ 135              		.loc 1 102 1 view .LVU29
+ 136 0012 F9E7     		b	.L6
+ 137              	.L10:
+ 138              		.align	2
+ 139              	.L9:
+ 140 0014 002C0140 		.word	1073818624
+ 141 0018 00000000 		.word	.LANCHOR4
+ 142              		.cfi_endproc
+ 143              	.LFE41:
+ 145              		.global	__aeabi_fcmpeq
+ 146              		.section	.text.read_temperature,"ax",%progbits
+ 147              		.align	1
+ 148              		.p2align 2,,3
+ 149              		.global	read_temperature
+ 150              		.syntax unified
+ 151              		.code	16
+ 152              		.thumb_func
+ 154              	read_temperature:
+ 155              	.LFB42:
+ 103:Src/main.c    **** 
+ 104:Src/main.c    **** void read_temperature()
+ 105:Src/main.c    **** {
+ 156              		.loc 1 105 1 is_stmt 1 view -0
+ 157              		.cfi_startproc
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106:Src/main.c    ****   cur_temperature = ntc3950_read_temperature(adc_avg);
+ 160              		.loc 1 106 3 view .LVU31
+ 161              		.loc 1 106 21 is_stmt 0 view .LVU32
+ 162 0000 124B     		ldr	r3, .L17
+ 105:Src/main.c    ****   cur_temperature = ntc3950_read_temperature(adc_avg);
+ 163              		.loc 1 105 1 view .LVU33
+ 164 0002 70B5     		push	{r4, r5, r6, lr}
+ 165              	.LCFI1:
+ 166              		.cfi_def_cfa_offset 16
+ 167              		.cfi_offset 4, -16
+ 168              		.cfi_offset 5, -12
+ 169              		.cfi_offset 6, -8
+ 170              		.cfi_offset 14, -4
+ 171              		.loc 1 106 21 view .LVU34
+ 172 0004 1888     		ldrh	r0, [r3]
+ 173 0006 80B2     		uxth	r0, r0
+ 174 0008 FFF7FEFF 		bl	ntc3950_read_temperature
+ 175              	.LVL4:
+ 107:Src/main.c    ****   if (cur_temperature == REGULATOR_NTC_FAULT)
+ 176              		.loc 1 107 6 view .LVU35
+ 177 000c 1049     		ldr	r1, .L17+4
+ 106:Src/main.c    ****   cur_temperature = ntc3950_read_temperature(adc_avg);
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 6
+
+
+ 178              		.loc 1 106 21 view .LVU36
+ 179 000e 051C     		adds	r5, r0, #0
+ 180              		.loc 1 107 3 is_stmt 1 view .LVU37
+ 181              		.loc 1 107 6 is_stmt 0 view .LVU38
+ 182 0010 FFF7FEFF 		bl	__aeabi_fcmpeq
+ 183              	.LVL5:
+ 184 0014 041E     		subs	r4, r0, #0
+ 185 0016 09D0     		beq	.L16
+ 108:Src/main.c    ****   {
+ 109:Src/main.c    ****     HAL_GPIO_WritePin(TRIAC_1_GPIO_Port, ADC_TRIAC_1_Pin, GPIO_PIN_SET);
+ 186              		.loc 1 109 5 is_stmt 1 view .LVU39
+ 187 0018 9020     		movs	r0, #144
+ 188 001a 0122     		movs	r2, #1
+ 189 001c 0421     		movs	r1, #4
+ 190 001e C005     		lsls	r0, r0, #23
+ 191 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 192              	.LVL6:
+ 110:Src/main.c    ****     temp_sensor_fault = true;
+ 193              		.loc 1 110 5 view .LVU40
+ 194              		.loc 1 110 23 is_stmt 0 view .LVU41
+ 195 0024 0122     		movs	r2, #1
+ 196 0026 0B4B     		ldr	r3, .L17+8
+ 197 0028 1A70     		strb	r2, [r3]
+ 198              	.L11:
+ 111:Src/main.c    ****   }
+ 112:Src/main.c    ****   else
+ 113:Src/main.c    ****   {
+ 114:Src/main.c    ****     if (round_float(cur_temperature) >= round_float(set_temperature) || heat_up_time == 0)
+ 115:Src/main.c    ****     {
+ 116:Src/main.c    ****       HAL_GPIO_WritePin(TRIAC_1_GPIO_Port, ADC_TRIAC_1_Pin, GPIO_PIN_RESET);
+ 117:Src/main.c    ****       temp_sensor_loose = false;
+ 118:Src/main.c    ****     }
+ 119:Src/main.c    ****     else if (heat_up_timer >= heat_up_time * SECONDS * M_SECONDS)
+ 120:Src/main.c    ****     {
+ 121:Src/main.c    ****       HAL_GPIO_WritePin(TRIAC_1_GPIO_Port, ADC_TRIAC_1_Pin, GPIO_PIN_SET);
+ 122:Src/main.c    ****       temp_sensor_loose = true;
+ 123:Src/main.c    ****       heat_up_timer = 0;
+ 124:Src/main.c    ****     }
+ 125:Src/main.c    ****   }
+ 126:Src/main.c    **** }
+ 199              		.loc 1 126 1 view .LVU42
+ 200              		@ sp needed
+ 201 002a 70BD     		pop	{r4, r5, r6, pc}
+ 202              	.L16:
+ 114:Src/main.c    ****     {
+ 203              		.loc 1 114 5 is_stmt 1 view .LVU43
+ 114:Src/main.c    ****     {
+ 204              		.loc 1 114 9 is_stmt 0 view .LVU44
+ 205 002c 281C     		adds	r0, r5, #0
+ 206 002e FFF7FEFF 		bl	round_float
+ 207              	.LVL7:
+ 114:Src/main.c    ****     {
+ 208              		.loc 1 114 41 view .LVU45
+ 209 0032 0020     		movs	r0, #0
+ 210 0034 FFF7FEFF 		bl	round_float
+ 211              	.LVL8:
+ 116:Src/main.c    ****       temp_sensor_loose = false;
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 7
+
+
+ 212              		.loc 1 116 7 is_stmt 1 view .LVU46
+ 213 0038 9020     		movs	r0, #144
+ 214 003a 0022     		movs	r2, #0
+ 215 003c 0421     		movs	r1, #4
+ 216 003e C005     		lsls	r0, r0, #23
+ 217 0040 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 218              	.LVL9:
+ 117:Src/main.c    ****     }
+ 219              		.loc 1 117 7 view .LVU47
+ 117:Src/main.c    ****     }
+ 220              		.loc 1 117 25 is_stmt 0 view .LVU48
+ 221 0044 044B     		ldr	r3, .L17+12
+ 222 0046 1C70     		strb	r4, [r3]
+ 223              		.loc 1 126 1 view .LVU49
+ 224 0048 EFE7     		b	.L11
+ 225              	.L18:
+ 226 004a C046     		.align	2
+ 227              	.L17:
+ 228 004c 00000000 		.word	.LANCHOR3
+ 229 0050 0000F6C2 		.word	-1024065536
+ 230 0054 00000000 		.word	.LANCHOR5
+ 231 0058 00000000 		.word	.LANCHOR6
+ 232              		.cfi_endproc
+ 233              	.LFE42:
+ 235              		.section	.text.SystemClock_Config,"ax",%progbits
+ 236              		.align	1
+ 237              		.p2align 2,,3
+ 238              		.global	SystemClock_Config
+ 239              		.syntax unified
+ 240              		.code	16
+ 241              		.thumb_func
+ 243              	SystemClock_Config:
+ 244              	.LFB44:
+ 127:Src/main.c    **** /* USER CODE END 0 */
+ 128:Src/main.c    **** 
+ 129:Src/main.c    **** /**
+ 130:Src/main.c    ****   * @brief  The application entry point.
+ 131:Src/main.c    ****   * @retval int
+ 132:Src/main.c    ****   */
+ 133:Src/main.c    **** int main(void)
+ 134:Src/main.c    **** {
+ 135:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 136:Src/main.c    **** 
+ 137:Src/main.c    ****   /* USER CODE END 1 */
+ 138:Src/main.c    **** 
+ 139:Src/main.c    ****   /* MCU Configuration--------------------------------------------------------*/
+ 140:Src/main.c    **** 
+ 141:Src/main.c    ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+ 142:Src/main.c    ****   HAL_Init();
+ 143:Src/main.c    **** 
+ 144:Src/main.c    ****   /* USER CODE BEGIN Init */
+ 145:Src/main.c    ****   HAL_IWDG_Init(&hiwdg);
+ 146:Src/main.c    **** 
+ 147:Src/main.c    ****   HAL_TIM_Base_Start_IT(&htim1);
+ 148:Src/main.c    ****   /* USER CODE END Init */
+ 149:Src/main.c    **** 
+ 150:Src/main.c    ****   /* Configure the system clock */
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 8
+
+
+ 151:Src/main.c    ****   SystemClock_Config();
+ 152:Src/main.c    **** 
+ 153:Src/main.c    ****   /* USER CODE BEGIN SysInit */
+ 154:Src/main.c    **** 
+ 155:Src/main.c    ****   /* USER CODE END SysInit */
+ 156:Src/main.c    **** 
+ 157:Src/main.c    ****   /* Initialize all configured peripherals */
+ 158:Src/main.c    ****   MX_GPIO_Init();
+ 159:Src/main.c    ****   MX_DMA_Init();
+ 160:Src/main.c    ****   MX_ADC_Init();
+ 161:Src/main.c    ****   MX_IWDG_Init();
+ 162:Src/main.c    ****   MX_TIM1_Init();
+ 163:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 164:Src/main.c    **** 
+ 165:Src/main.c    ****   /* USER CODE END 2 */
+ 166:Src/main.c    **** 
+ 167:Src/main.c    ****   /* Infinite loop */
+ 168:Src/main.c    ****   /* USER CODE BEGIN WHILE */
+ 169:Src/main.c    ****   while (1)
+ 170:Src/main.c    ****   {
+ 171:Src/main.c    ****     /* USER CODE END WHILE */
+ 172:Src/main.c    **** 
+ 173:Src/main.c    ****     /* USER CODE BEGIN 3 */
+ 174:Src/main.c    ****     HAL_IWDG_Refresh(&hiwdg);
+ 175:Src/main.c    **** 
+ 176:Src/main.c    ****     read_temperature();
+ 177:Src/main.c    ****   }
+ 178:Src/main.c    ****   /* USER CODE END 3 */
+ 179:Src/main.c    **** }
+ 180:Src/main.c    **** 
+ 181:Src/main.c    **** /**
+ 182:Src/main.c    ****   * @brief System Clock Configuration
+ 183:Src/main.c    ****   * @retval None
+ 184:Src/main.c    ****   */
+ 185:Src/main.c    **** void SystemClock_Config(void)
+ 186:Src/main.c    **** {
+ 245              		.loc 1 186 1 is_stmt 1 view -0
+ 246              		.cfi_startproc
+ 247              		@ args = 0, pretend = 0, frame = 64
+ 248              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 249              		.loc 1 187 3 view .LVU51
+ 186:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 250              		.loc 1 186 1 is_stmt 0 view .LVU52
+ 251 0000 10B5     		push	{r4, lr}
+ 252              	.LCFI2:
+ 253              		.cfi_def_cfa_offset 8
+ 254              		.cfi_offset 4, -8
+ 255              		.cfi_offset 14, -4
+ 256 0002 90B0     		sub	sp, sp, #64
+ 257              	.LCFI3:
+ 258              		.cfi_def_cfa_offset 72
+ 259              		.loc 1 187 22 view .LVU53
+ 260 0004 2822     		movs	r2, #40
+ 261 0006 0021     		movs	r1, #0
+ 262 0008 06A8     		add	r0, sp, #24
+ 263 000a FFF7FEFF 		bl	memset
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 9
+
+
+ 264              	.LVL10:
+ 188:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 265              		.loc 1 188 3 is_stmt 1 view .LVU54
+ 266              		.loc 1 188 22 is_stmt 0 view .LVU55
+ 267 000e 1022     		movs	r2, #16
+ 268 0010 0021     		movs	r1, #0
+ 269 0012 6846     		mov	r0, sp
+ 270 0014 FFF7FEFF 		bl	memset
+ 271              	.LVL11:
+ 189:Src/main.c    **** 
+ 190:Src/main.c    ****   /** Initializes the RCC Oscillators according to the specified parameters
+ 191:Src/main.c    ****   * in the RCC_OscInitTypeDef structure.
+ 192:Src/main.c    ****   */
+ 193:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI14|RCC_OSCILLATORTYPE_LSI
+ 272              		.loc 1 193 3 is_stmt 1 view .LVU56
+ 273              		.loc 1 193 36 is_stmt 0 view .LVU57
+ 274 0018 1923     		movs	r3, #25
+ 275 001a 0493     		str	r3, [sp, #16]
+ 194:Src/main.c    ****                               |RCC_OSCILLATORTYPE_HSE;
+ 195:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 276              		.loc 1 195 3 is_stmt 1 view .LVU58
+ 277              		.loc 1 195 30 is_stmt 0 view .LVU59
+ 278 001c 183B     		subs	r3, r3, #24
+ 279 001e 0593     		str	r3, [sp, #20]
+ 196:Src/main.c    ****   RCC_OscInitStruct.HSI14State = RCC_HSI14_ON;
+ 280              		.loc 1 196 3 is_stmt 1 view .LVU60
+ 281              		.loc 1 196 32 is_stmt 0 view .LVU61
+ 282 0020 0993     		str	r3, [sp, #36]
+ 197:Src/main.c    ****   RCC_OscInitStruct.HSI14CalibrationValue = 16;
+ 283              		.loc 1 197 3 is_stmt 1 view .LVU62
+ 198:Src/main.c    ****   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+ 284              		.loc 1 198 30 is_stmt 0 view .LVU63
+ 285 0022 0B93     		str	r3, [sp, #44]
+ 199:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 200:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 286              		.loc 1 200 35 view .LVU64
+ 287 0024 8023     		movs	r3, #128
+ 288 0026 5B02     		lsls	r3, r3, #9
+ 289 0028 0D93     		str	r3, [sp, #52]
+ 201:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
+ 290              		.loc 1 201 32 view .LVU65
+ 291 002a 8023     		movs	r3, #128
+ 197:Src/main.c    ****   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+ 292              		.loc 1 197 43 view .LVU66
+ 293 002c 1022     		movs	r2, #16
+ 199:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 294              		.loc 1 199 34 view .LVU67
+ 295 002e 0224     		movs	r4, #2
+ 296              		.loc 1 201 32 view .LVU68
+ 297 0030 5B03     		lsls	r3, r3, #13
+ 202:Src/main.c    ****   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+ 203:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 298              		.loc 1 203 7 view .LVU69
+ 299 0032 04A8     		add	r0, sp, #16
+ 197:Src/main.c    ****   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+ 300              		.loc 1 197 43 view .LVU70
+ 301 0034 0A92     		str	r2, [sp, #40]
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 10
+
+
+ 198:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 302              		.loc 1 198 3 is_stmt 1 view .LVU71
+ 199:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 303              		.loc 1 199 3 view .LVU72
+ 199:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 304              		.loc 1 199 34 is_stmt 0 view .LVU73
+ 305 0036 0C94     		str	r4, [sp, #48]
+ 200:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
+ 306              		.loc 1 200 3 is_stmt 1 view .LVU74
+ 201:Src/main.c    ****   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+ 307              		.loc 1 201 3 view .LVU75
+ 201:Src/main.c    ****   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+ 308              		.loc 1 201 32 is_stmt 0 view .LVU76
+ 309 0038 0E93     		str	r3, [sp, #56]
+ 202:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 310              		.loc 1 202 3 is_stmt 1 view .LVU77
+ 311              		.loc 1 203 3 view .LVU78
+ 312              		.loc 1 203 7 is_stmt 0 view .LVU79
+ 313 003a FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 314              	.LVL12:
+ 315              		.loc 1 203 6 view .LVU80
+ 316 003e 0028     		cmp	r0, #0
+ 317 0040 01D0     		beq	.L20
+ 204:Src/main.c    ****   {
+ 205:Src/main.c    ****     Error_Handler();
+ 318              		.loc 1 205 5 is_stmt 1 view .LVU81
+ 319              	.LBB12:
+ 320              	.LBI12:
+ 206:Src/main.c    ****   }
+ 207:Src/main.c    ****   /** Initializes the CPU, AHB and APB buses clocks
+ 208:Src/main.c    ****   */
+ 209:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 210:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1;
+ 211:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 212:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 213:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 214:Src/main.c    **** 
+ 215:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+ 216:Src/main.c    ****   {
+ 217:Src/main.c    ****     Error_Handler();
+ 218:Src/main.c    ****   }
+ 219:Src/main.c    **** }
+ 220:Src/main.c    **** 
+ 221:Src/main.c    **** /* USER CODE BEGIN 4 */
+ 222:Src/main.c    **** 
+ 223:Src/main.c    **** /* USER CODE END 4 */
+ 224:Src/main.c    **** 
+ 225:Src/main.c    **** /**
+ 226:Src/main.c    ****   * @brief  This function is executed in case of error occurrence.
+ 227:Src/main.c    ****   * @retval None
+ 228:Src/main.c    ****   */
+ 229:Src/main.c    **** void Error_Handler(void)
+ 321              		.loc 1 229 6 view .LVU82
+ 322              	.LBE12:
+ 230:Src/main.c    **** {
+ 231:Src/main.c    ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 232:Src/main.c    ****   /* User can add his own implementation to report the HAL error return state */
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 11
+
+
+ 233:Src/main.c    ****   __disable_irq();
+ 323              		.loc 1 233 3 view .LVU83
+ 324              	.LBB15:
+ 325              	.LBB13:
+ 326              	.LBI13:
+ 327              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+   1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
+   2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
+   3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
+   4:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.0.4
+   5:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     09. April 2018
+   6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
+   7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
+   8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
+   9:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  10:Drivers/CMSIS/Include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
+  11:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  12:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  13:Drivers/CMSIS/Include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
+  14:Drivers/CMSIS/Include/cmsis_gcc.h ****  * You may obtain a copy of the License at
+  15:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  16:Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
+  17:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  18:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+  19:Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  20:Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  21:Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
+  22:Drivers/CMSIS/Include/cmsis_gcc.h ****  * limitations under the License.
+  23:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+  24:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  25:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __CMSIS_GCC_H
+  26:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
+  27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+  29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+  30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
+  31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
+  32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
+  33:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  34:Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
+  35:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
+  36:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
+  37:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  38:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  39:Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
+  40:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
+  41:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
+  42:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  43:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
+  44:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
+  45:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  46:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
+  47:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
+  48:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  49:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
+  50:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
+  51:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 12
+
+
+  52:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
+  53:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __NO_RETURN                            __attribute__((__noreturn__))
+  54:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  55:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
+  56:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
+  57:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  58:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
+  59:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
+  60:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  61:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
+  62:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
+  63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
+  65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
+  66:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  67:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_UNION
+  68:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_UNION                         union __attribute__((packed, aligned(1)))
+  69:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  70:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32        /* deprecated */
+  71:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  72:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  73:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  74:Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
+  75:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  76:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
+  77:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  78:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
+  79:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  80:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  81:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  82:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
+  83:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
+  85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+  87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  90:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
+  91:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  92:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
+  93:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  94:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_WRITE
+  95:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  96:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  97:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  98:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
+  99:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 100:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
+ 101:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 102:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ 103:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+ 104:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ 105:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+ 106:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
+ 107:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 108:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 13
+
+
+ 109:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 110:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ALIGNED
+ 111:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ALIGNED(x)                           __attribute__((aligned(x)))
+ 112:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 113:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
+ 114:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ 115:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 116:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 117:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 118:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
+ 119:Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 120:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ 121:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
+ 122:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 123:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 124:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 125:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
+ 126:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 127:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 128:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 129:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_irq(void)
+ 130:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 131:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 132:Drivers/CMSIS/Include/cmsis_gcc.h **** }
+ 133:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 134:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 135:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 136:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Disable IRQ Interrupts
+ 137:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+ 138:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 139:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 140:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
+ 328              		.loc 2 140 27 view .LVU84
+ 329              	.LBB14:
+ 141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+ 330              		.loc 2 142 3 view .LVU85
+ 331              		.syntax divided
+ 332              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 333 0042 72B6     		cpsid i
+ 334              	@ 0 "" 2
+ 335              		.thumb
+ 336              		.syntax unified
+ 337              	.L21:
+ 338              	.LBE14:
+ 339              	.LBE13:
+ 340              	.LBE15:
+ 234:Src/main.c    ****   while (1)
+ 341              		.loc 1 234 3 view .LVU86
+ 235:Src/main.c    ****   {
+ 236:Src/main.c    ****   }
+ 342              		.loc 1 236 3 view .LVU87
+ 234:Src/main.c    ****   while (1)
+ 343              		.loc 1 234 9 view .LVU88
+ 234:Src/main.c    ****   while (1)
+ 344              		.loc 1 234 3 view .LVU89
+ 345              		.loc 1 236 3 view .LVU90
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 14
+
+
+ 234:Src/main.c    ****   while (1)
+ 346              		.loc 1 234 9 view .LVU91
+ 347 0044 FEE7     		b	.L21
+ 348              	.L20:
+ 209:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1;
+ 349              		.loc 1 209 3 view .LVU92
+ 209:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1;
+ 350              		.loc 1 209 31 is_stmt 0 view .LVU93
+ 351 0046 0723     		movs	r3, #7
+ 212:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 352              		.loc 1 212 35 view .LVU94
+ 353 0048 0290     		str	r0, [sp, #8]
+ 213:Src/main.c    **** 
+ 354              		.loc 1 213 36 view .LVU95
+ 355 004a 0390     		str	r0, [sp, #12]
+ 215:Src/main.c    ****   {
+ 356              		.loc 1 215 7 view .LVU96
+ 357 004c 0121     		movs	r1, #1
+ 358 004e 6846     		mov	r0, sp
+ 209:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1;
+ 359              		.loc 1 209 31 view .LVU97
+ 360 0050 0093     		str	r3, [sp]
+ 211:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 361              		.loc 1 211 3 is_stmt 1 view .LVU98
+ 211:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 362              		.loc 1 211 34 is_stmt 0 view .LVU99
+ 363 0052 0194     		str	r4, [sp, #4]
+ 212:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 364              		.loc 1 212 3 is_stmt 1 view .LVU100
+ 213:Src/main.c    **** 
+ 365              		.loc 1 213 3 view .LVU101
+ 215:Src/main.c    ****   {
+ 366              		.loc 1 215 3 view .LVU102
+ 215:Src/main.c    ****   {
+ 367              		.loc 1 215 7 is_stmt 0 view .LVU103
+ 368 0054 FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 369              	.LVL13:
+ 215:Src/main.c    ****   {
+ 370              		.loc 1 215 6 view .LVU104
+ 371 0058 0028     		cmp	r0, #0
+ 372 005a 01D0     		beq	.L19
+ 217:Src/main.c    ****   }
+ 373              		.loc 1 217 5 is_stmt 1 view .LVU105
+ 374              	.LBB16:
+ 375              	.LBI16:
+ 229:Src/main.c    **** {
+ 376              		.loc 1 229 6 view .LVU106
+ 377              	.LBE16:
+ 233:Src/main.c    ****   while (1)
+ 378              		.loc 1 233 3 view .LVU107
+ 379              	.LBB19:
+ 380              	.LBB17:
+ 381              	.LBI17:
+ 140:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 382              		.loc 2 140 27 view .LVU108
+ 383              	.LBB18:
+ 384              		.loc 2 142 3 view .LVU109
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 15
+
+
+ 385              		.syntax divided
+ 386              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 387 005c 72B6     		cpsid i
+ 388              	@ 0 "" 2
+ 389              		.thumb
+ 390              		.syntax unified
+ 391              	.L23:
+ 392              	.LBE18:
+ 393              	.LBE17:
+ 394              	.LBE19:
+ 234:Src/main.c    ****   {
+ 395              		.loc 1 234 3 view .LVU110
+ 396              		.loc 1 236 3 view .LVU111
+ 234:Src/main.c    ****   {
+ 397              		.loc 1 234 9 view .LVU112
+ 234:Src/main.c    ****   {
+ 398              		.loc 1 234 3 view .LVU113
+ 399              		.loc 1 236 3 view .LVU114
+ 234:Src/main.c    ****   {
+ 400              		.loc 1 234 9 view .LVU115
+ 401 005e FEE7     		b	.L23
+ 402              	.L19:
+ 219:Src/main.c    **** 
+ 403              		.loc 1 219 1 is_stmt 0 view .LVU116
+ 404 0060 10B0     		add	sp, sp, #64
+ 405              		@ sp needed
+ 406 0062 10BD     		pop	{r4, pc}
+ 407              		.cfi_endproc
+ 408              	.LFE44:
+ 410              		.section	.text.startup.main,"ax",%progbits
+ 411              		.align	1
+ 412              		.p2align 2,,3
+ 413              		.global	main
+ 414              		.syntax unified
+ 415              		.code	16
+ 416              		.thumb_func
+ 418              	main:
+ 419              	.LFB43:
+ 134:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 420              		.loc 1 134 1 is_stmt 1 view -0
+ 421              		.cfi_startproc
+ 422              		@ Volatile: function does not return.
+ 423              		@ args = 0, pretend = 0, frame = 0
+ 424              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142:Src/main.c    **** 
+ 425              		.loc 1 142 3 view .LVU118
+ 134:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 426              		.loc 1 134 1 is_stmt 0 view .LVU119
+ 427 0000 10B5     		push	{r4, lr}
+ 428              	.LCFI4:
+ 429              		.cfi_def_cfa_offset 8
+ 430              		.cfi_offset 4, -8
+ 431              		.cfi_offset 14, -4
+ 142:Src/main.c    **** 
+ 432              		.loc 1 142 3 view .LVU120
+ 433 0002 FFF7FEFF 		bl	HAL_Init
+ 434              	.LVL14:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 16
+
+
+ 145:Src/main.c    **** 
+ 435              		.loc 1 145 3 is_stmt 1 view .LVU121
+ 436 0006 0C4C     		ldr	r4, .L26
+ 437 0008 2000     		movs	r0, r4
+ 438 000a FFF7FEFF 		bl	HAL_IWDG_Init
+ 439              	.LVL15:
+ 147:Src/main.c    ****   /* USER CODE END Init */
+ 440              		.loc 1 147 3 view .LVU122
+ 441 000e 0B48     		ldr	r0, .L26+4
+ 442 0010 FFF7FEFF 		bl	HAL_TIM_Base_Start_IT
+ 443              	.LVL16:
+ 151:Src/main.c    **** 
+ 444              		.loc 1 151 3 view .LVU123
+ 445 0014 FFF7FEFF 		bl	SystemClock_Config
+ 446              	.LVL17:
+ 158:Src/main.c    ****   MX_DMA_Init();
+ 447              		.loc 1 158 3 view .LVU124
+ 448 0018 FFF7FEFF 		bl	MX_GPIO_Init
+ 449              	.LVL18:
+ 159:Src/main.c    ****   MX_ADC_Init();
+ 450              		.loc 1 159 3 view .LVU125
+ 451 001c FFF7FEFF 		bl	MX_DMA_Init
+ 452              	.LVL19:
+ 160:Src/main.c    ****   MX_IWDG_Init();
+ 453              		.loc 1 160 3 view .LVU126
+ 454 0020 FFF7FEFF 		bl	MX_ADC_Init
+ 455              	.LVL20:
+ 161:Src/main.c    ****   MX_TIM1_Init();
+ 456              		.loc 1 161 3 view .LVU127
+ 457 0024 FFF7FEFF 		bl	MX_IWDG_Init
+ 458              	.LVL21:
+ 162:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 459              		.loc 1 162 3 view .LVU128
+ 460 0028 FFF7FEFF 		bl	MX_TIM1_Init
+ 461              	.LVL22:
+ 462              	.L25:
+ 169:Src/main.c    ****   {
+ 463              		.loc 1 169 3 discriminator 1 view .LVU129
+ 174:Src/main.c    **** 
+ 464              		.loc 1 174 5 discriminator 1 view .LVU130
+ 465 002c 2000     		movs	r0, r4
+ 466 002e FFF7FEFF 		bl	HAL_IWDG_Refresh
+ 467              	.LVL23:
+ 176:Src/main.c    ****   }
+ 468              		.loc 1 176 5 discriminator 1 view .LVU131
+ 469 0032 FFF7FEFF 		bl	read_temperature
+ 470              	.LVL24:
+ 169:Src/main.c    ****   {
+ 471              		.loc 1 169 9 discriminator 1 view .LVU132
+ 472 0036 F9E7     		b	.L25
+ 473              	.L27:
+ 474              		.align	2
+ 475              	.L26:
+ 476 0038 00000000 		.word	hiwdg
+ 477 003c 00000000 		.word	htim1
+ 478              		.cfi_endproc
+ 479              	.LFE43:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 17
+
+
+ 481              		.section	.text.Error_Handler,"ax",%progbits
+ 482              		.align	1
+ 483              		.p2align 2,,3
+ 484              		.global	Error_Handler
+ 485              		.syntax unified
+ 486              		.code	16
+ 487              		.thumb_func
+ 489              	Error_Handler:
+ 490              	.LFB45:
+ 230:Src/main.c    ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 491              		.loc 1 230 1 view -0
+ 492              		.cfi_startproc
+ 493              		@ Volatile: function does not return.
+ 494              		@ args = 0, pretend = 0, frame = 0
+ 495              		@ frame_needed = 0, uses_anonymous_args = 0
+ 496              		@ link register save eliminated.
+ 233:Src/main.c    ****   while (1)
+ 497              		.loc 1 233 3 view .LVU134
+ 498              	.LBB20:
+ 499              	.LBI20:
+ 140:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 500              		.loc 2 140 27 view .LVU135
+ 501              	.LBB21:
+ 502              		.loc 2 142 3 view .LVU136
+ 503              		.syntax divided
+ 504              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 505 0000 72B6     		cpsid i
+ 506              	@ 0 "" 2
+ 507              		.thumb
+ 508              		.syntax unified
+ 509              	.L29:
+ 510              	.LBE21:
+ 511              	.LBE20:
+ 234:Src/main.c    ****   {
+ 512              		.loc 1 234 3 discriminator 1 view .LVU137
+ 513              		.loc 1 236 3 discriminator 1 view .LVU138
+ 234:Src/main.c    ****   {
+ 514              		.loc 1 234 9 discriminator 1 view .LVU139
+ 234:Src/main.c    ****   {
+ 515              		.loc 1 234 3 discriminator 1 view .LVU140
+ 516              		.loc 1 236 3 discriminator 1 view .LVU141
+ 234:Src/main.c    ****   {
+ 517              		.loc 1 234 9 discriminator 1 view .LVU142
+ 518 0002 FEE7     		b	.L29
+ 519              		.cfi_endproc
+ 520              	.LFE45:
+ 522              		.section	.bss.adc_avg,"aw",%nobits
+ 523              		.align	1
+ 524              		.set	.LANCHOR3,. + 0
+ 527              	adc_avg:
+ 528 0000 0000     		.space	2
+ 529              		.section	.bss.adc_dma,"aw",%nobits
+ 530              		.align	2
+ 531              		.set	.LANCHOR0,. + 0
+ 534              	adc_dma:
+ 535 0000 0000     		.space	2
+ 536              		.section	.bss.adc_measurements,"aw",%nobits
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 18
+
+
+ 537              		.set	.LANCHOR2,. + 0
+ 540              	adc_measurements:
+ 541 0000 00       		.space	1
+ 542              		.section	.bss.adc_sum,"aw",%nobits
+ 543              		.align	2
+ 544              		.set	.LANCHOR1,. + 0
+ 547              	adc_sum:
+ 548 0000 00000000 		.space	4
+ 549              		.section	.bss.heat_up_timer,"aw",%nobits
+ 550              		.align	2
+ 551              		.set	.LANCHOR4,. + 0
+ 554              	heat_up_timer:
+ 555 0000 00000000 		.space	4
+ 556              		.section	.bss.temp_sensor_fault,"aw",%nobits
+ 557              		.set	.LANCHOR5,. + 0
+ 560              	temp_sensor_fault:
+ 561 0000 00       		.space	1
+ 562              		.section	.bss.temp_sensor_loose,"aw",%nobits
+ 563              		.set	.LANCHOR6,. + 0
+ 566              	temp_sensor_loose:
+ 567 0000 00       		.space	1
+ 568              		.text
+ 569              	.Letext0:
+ 570              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 571              		.file 4 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 572              		.file 5 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 573              		.file 6 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h"
+ 574              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 575              		.file 8 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h"
+ 576              		.file 9 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
+ 577              		.file 10 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 578              		.file 11 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h"
+ 579              		.file 12 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_iwdg.h"
+ 580              		.file 13 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h"
+ 581              		.file 14 "Inc/iwdg.h"
+ 582              		.file 15 "Inc/tim.h"
+ 583              		.file 16 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
+ 584              		.file 17 "Inc/gpio.h"
+ 585              		.file 18 "Inc/dma.h"
+ 586              		.file 19 "Inc/adc.h"
+ 587              		.file 20 "Inc/ntc3950.h"
+ 588              		.file 21 "<built-in>"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:19     .text.HAL_ADC_ConvCpltCallback:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:26     .text.HAL_ADC_ConvCpltCallback:0000000000000000 HAL_ADC_ConvCpltCallback
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:95     .text.HAL_ADC_ConvCpltCallback:0000000000000038 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:103    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:110    .text.HAL_TIM_PeriodElapsedCallback:0000000000000000 HAL_TIM_PeriodElapsedCallback
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:140    .text.HAL_TIM_PeriodElapsedCallback:0000000000000014 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:147    .text.read_temperature:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:154    .text.read_temperature:0000000000000000 read_temperature
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:228    .text.read_temperature:000000000000004c $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:236    .text.SystemClock_Config:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:243    .text.SystemClock_Config:0000000000000000 SystemClock_Config
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:411    .text.startup.main:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:418    .text.startup.main:0000000000000000 main
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:476    .text.startup.main:0000000000000038 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:482    .text.Error_Handler:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:489    .text.Error_Handler:0000000000000000 Error_Handler
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:523    .bss.adc_avg:0000000000000000 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:527    .bss.adc_avg:0000000000000000 adc_avg
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:530    .bss.adc_dma:0000000000000000 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:534    .bss.adc_dma:0000000000000000 adc_dma
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:540    .bss.adc_measurements:0000000000000000 adc_measurements
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:541    .bss.adc_measurements:0000000000000000 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:543    .bss.adc_sum:0000000000000000 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:547    .bss.adc_sum:0000000000000000 adc_sum
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:550    .bss.heat_up_timer:0000000000000000 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:554    .bss.heat_up_timer:0000000000000000 heat_up_timer
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:560    .bss.temp_sensor_fault:0000000000000000 temp_sensor_fault
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:561    .bss.temp_sensor_fault:0000000000000000 $d
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:566    .bss.temp_sensor_loose:0000000000000000 temp_sensor_loose
+C:\Users\rokko\AppData\Local\Temp\cc6Oduhd.s:567    .bss.temp_sensor_loose:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv
+__aeabi_fcmpeq
+ntc3950_read_temperature
+HAL_GPIO_WritePin
+round_float
+memset
+HAL_RCC_OscConfig
+HAL_RCC_ClockConfig
+HAL_Init
+HAL_IWDG_Init
+HAL_TIM_Base_Start_IT
+MX_GPIO_Init
+MX_DMA_Init
+MX_ADC_Init
+MX_IWDG_Init
+MX_TIM1_Init
+HAL_IWDG_Refresh
+hiwdg
+htim1

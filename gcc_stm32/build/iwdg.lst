@@ -1,0 +1,175 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"iwdg.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_IWDG_Init,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	MX_IWDG_Init
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	MX_IWDG_Init:
+  26              	.LFB40:
+  27              		.file 1 "Src/iwdg.c"
+   1:Src/iwdg.c    **** /**
+   2:Src/iwdg.c    ****   ******************************************************************************
+   3:Src/iwdg.c    ****   * @file    iwdg.c
+   4:Src/iwdg.c    ****   * @brief   This file provides code for the configuration
+   5:Src/iwdg.c    ****   *          of the IWDG instances.
+   6:Src/iwdg.c    ****   ******************************************************************************
+   7:Src/iwdg.c    ****   * @attention
+   8:Src/iwdg.c    ****   *
+   9:Src/iwdg.c    ****   * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  10:Src/iwdg.c    ****   * All rights reserved.</center></h2>
+  11:Src/iwdg.c    ****   *
+  12:Src/iwdg.c    ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/iwdg.c    ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/iwdg.c    ****   * License. You may obtain a copy of the License at:
+  15:Src/iwdg.c    ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/iwdg.c    ****   *
+  17:Src/iwdg.c    ****   ******************************************************************************
+  18:Src/iwdg.c    ****   */
+  19:Src/iwdg.c    **** 
+  20:Src/iwdg.c    **** /* Includes ------------------------------------------------------------------*/
+  21:Src/iwdg.c    **** #include "iwdg.h"
+  22:Src/iwdg.c    **** 
+  23:Src/iwdg.c    **** /* USER CODE BEGIN 0 */
+  24:Src/iwdg.c    **** 
+  25:Src/iwdg.c    **** /* USER CODE END 0 */
+  26:Src/iwdg.c    **** 
+  27:Src/iwdg.c    **** IWDG_HandleTypeDef hiwdg;
+  28:Src/iwdg.c    **** 
+  29:Src/iwdg.c    **** /* IWDG init function */
+  30:Src/iwdg.c    **** void MX_IWDG_Init(void)
+  31:Src/iwdg.c    **** {
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s 			page 2
+
+
+  28              		.loc 1 31 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32:Src/iwdg.c    **** 
+  33:Src/iwdg.c    ****   /* USER CODE BEGIN IWDG_Init 0 */
+  34:Src/iwdg.c    **** 
+  35:Src/iwdg.c    ****   /* USER CODE END IWDG_Init 0 */
+  36:Src/iwdg.c    **** 
+  37:Src/iwdg.c    ****   /* USER CODE BEGIN IWDG_Init 1 */
+  38:Src/iwdg.c    **** 
+  39:Src/iwdg.c    ****   /* USER CODE END IWDG_Init 1 */
+  40:Src/iwdg.c    ****   hiwdg.Instance = IWDG;
+  32              		.loc 1 40 3 view .LVU1
+  33              		.loc 1 40 18 is_stmt 0 view .LVU2
+  34 0000 0848     		ldr	r0, .L8
+  35 0002 094B     		ldr	r3, .L8+4
+  31:Src/iwdg.c    **** 
+  36              		.loc 1 31 1 view .LVU3
+  37 0004 10B5     		push	{r4, lr}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 4, -8
+  41              		.cfi_offset 14, -4
+  42              		.loc 1 40 18 view .LVU4
+  43 0006 0360     		str	r3, [r0]
+  41:Src/iwdg.c    ****   hiwdg.Init.Prescaler = IWDG_PRESCALER_16;
+  44              		.loc 1 41 3 is_stmt 1 view .LVU5
+  45              		.loc 1 41 24 is_stmt 0 view .LVU6
+  46 0008 0223     		movs	r3, #2
+  47 000a 4360     		str	r3, [r0, #4]
+  42:Src/iwdg.c    ****   hiwdg.Init.Window = 4095;
+  48              		.loc 1 42 3 is_stmt 1 view .LVU7
+  49              		.loc 1 42 21 is_stmt 0 view .LVU8
+  50 000c 074B     		ldr	r3, .L8+8
+  51 000e C360     		str	r3, [r0, #12]
+  43:Src/iwdg.c    ****   hiwdg.Init.Reload = 2500;
+  52              		.loc 1 43 3 is_stmt 1 view .LVU9
+  53              		.loc 1 43 21 is_stmt 0 view .LVU10
+  54 0010 074B     		ldr	r3, .L8+12
+  55 0012 8360     		str	r3, [r0, #8]
+  44:Src/iwdg.c    ****   if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  56              		.loc 1 44 3 is_stmt 1 view .LVU11
+  57              		.loc 1 44 7 is_stmt 0 view .LVU12
+  58 0014 FFF7FEFF 		bl	HAL_IWDG_Init
+  59              	.LVL0:
+  60              		.loc 1 44 6 view .LVU13
+  61 0018 0028     		cmp	r0, #0
+  62 001a 00D1     		bne	.L7
+  63              	.L1:
+  45:Src/iwdg.c    ****   {
+  46:Src/iwdg.c    ****     Error_Handler();
+  47:Src/iwdg.c    ****   }
+  48:Src/iwdg.c    ****   /* USER CODE BEGIN IWDG_Init 2 */
+  49:Src/iwdg.c    **** 
+  50:Src/iwdg.c    ****   /* USER CODE END IWDG_Init 2 */
+  51:Src/iwdg.c    **** 
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s 			page 3
+
+
+  52:Src/iwdg.c    **** }
+  64              		.loc 1 52 1 view .LVU14
+  65              		@ sp needed
+  66 001c 10BD     		pop	{r4, pc}
+  67              	.L7:
+  46:Src/iwdg.c    ****   }
+  68              		.loc 1 46 5 is_stmt 1 view .LVU15
+  69 001e FFF7FEFF 		bl	Error_Handler
+  70              	.LVL1:
+  71              		.loc 1 52 1 is_stmt 0 view .LVU16
+  72 0022 FBE7     		b	.L1
+  73              	.L9:
+  74              		.align	2
+  75              	.L8:
+  76 0024 00000000 		.word	.LANCHOR0
+  77 0028 00300040 		.word	1073754112
+  78 002c FF0F0000 		.word	4095
+  79 0030 C4090000 		.word	2500
+  80              		.cfi_endproc
+  81              	.LFE40:
+  83              		.global	hiwdg
+  84              		.section	.bss.hiwdg,"aw",%nobits
+  85              		.align	2
+  86              		.set	.LANCHOR0,. + 0
+  89              	hiwdg:
+  90 0000 00000000 		.space	16
+  90      00000000 
+  90      00000000 
+  90      00000000 
+  91              		.text
+  92              	.Letext0:
+  93              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+  94              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+  95              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+  96              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_iwdg.h"
+  97              		.file 6 "Inc/main.h"
+  98              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+  99              		.file 8 "Inc/iwdg.h"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 iwdg.c
+C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s:18     .text.MX_IWDG_Init:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s:25     .text.MX_IWDG_Init:0000000000000000 MX_IWDG_Init
+C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s:76     .text.MX_IWDG_Init:0000000000000024 $d
+C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s:89     .bss.hiwdg:0000000000000000 hiwdg
+C:\Users\rokko\AppData\Local\Temp\ccCfcuib.s:85     .bss.hiwdg:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+HAL_IWDG_Init
+Error_Handler

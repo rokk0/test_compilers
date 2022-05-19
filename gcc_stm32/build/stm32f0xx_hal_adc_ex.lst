@@ -1,0 +1,453 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stm32f0xx_hal_adc_ex.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.HAL_ADCEx_Calibration_Start,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	HAL_ADCEx_Calibration_Start
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	HAL_ADCEx_Calibration_Start:
+  26              	.LVL0:
+  27              	.LFB40:
+  28              		.file 1 "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c"
+   1:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /**
+   2:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   ******************************************************************************
+   3:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @file    stm32f0xx_hal_adc_ex.c
+   4:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @author  MCD Application Team
+   5:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @brief   This file provides firmware functions to manage the following 
+   6:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *          functionalities of the Analog to Digital Convertor (ADC)
+   7:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *          peripheral:
+   8:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *           + Operation functions
+   9:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *             ++ Calibration (ADC automatic self-calibration)
+  10:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *          Other functions (generic functions) are available in file 
+  11:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *          "stm32f0xx_hal_adc.c".
+  12:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *
+  13:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   @verbatim
+  14:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   [..] 
+  15:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   (@) Sections "ADC peripheral features" and "How to use this driver" are
+  16:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       available in file of generic functions "stm32l1xx_hal_adc.c".
+  17:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   [..]
+  18:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   @endverbatim
+  19:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   ******************************************************************************
+  20:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @attention
+  21:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *
+  22:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
+  23:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * All rights reserved.</center></h2>
+  24:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *
+  25:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * This software component is licensed by ST under BSD 3-Clause license,
+  26:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * the "License"; You may not use this file except in compliance with the
+  27:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * License. You may obtain a copy of the License at:
+  28:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *                        opensource.org/licenses/BSD-3-Clause
+  29:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *
+  30:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   ******************************************************************************
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 2
+
+
+  31:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  32:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  33:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Includes ------------------------------------------------------------------*/
+  34:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** #include "stm32f0xx_hal.h"
+  35:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  36:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /** @addtogroup STM32F0xx_HAL_Driver
+  37:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @{
+  38:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  39:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  40:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /** @defgroup ADCEx ADCEx
+  41:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @brief ADC HAL module driver
+  42:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @{
+  43:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  44:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  45:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** #ifdef HAL_ADC_MODULE_ENABLED
+  46:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  47:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Private typedef -----------------------------------------------------------*/
+  48:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Private define ------------------------------------------------------------*/
+  49:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /** @defgroup ADCEx_Private_Constants ADCEx Private Constants
+  50:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @{
+  51:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */ 
+  52:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****  
+  53:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Fixed timeout values for ADC calibration, enable settling time, disable  */
+  54:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* settling time.                                                           */
+  55:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Values defined to be higher than worst cases: low clock frequency,       */
+  56:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* maximum prescaler.                                                       */
+  57:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Ex of profile low frequency : Clock source at 0.1 MHz, ADC clock         */
+  58:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* prescaler 4.                                                             */
+  59:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Unit: ms                                                                 */
+  60:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   #define ADC_DISABLE_TIMEOUT           2
+  61:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   #define ADC_CALIBRATION_TIMEOUT       2U      
+  62:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /**
+  63:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @}
+  64:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  65:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  66:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Private macros -------------------------------------------------------------*/
+  67:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Private variables ---------------------------------------------------------*/
+  68:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Private function prototypes -----------------------------------------------*/
+  69:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /* Private functions ---------------------------------------------------------*/
+  70:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  71:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /** @defgroup ADCEx_Exported_Functions ADCEx Exported Functions
+  72:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @{
+  73:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  74:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+  75:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /** @defgroup ADCEx_Exported_Functions_Group1 Extended Initialization/de-initialization functions 
+  76:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****  *  @brief    Extended Initialization and Configuration functions
+  77:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****  *
+  78:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** @verbatim
+  79:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****  ===============================================================================
+  80:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       ##### IO operation functions #####
+  81:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****  ===============================================================================
+  82:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     [..]  This section provides functions allowing to:
+  83:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       (+) Perform the ADC calibration. 
+  84:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** @endverbatim
+  85:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @{
+  86:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  87:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 3
+
+
+  88:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** /**
+  89:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @brief  Perform an ADC automatic self-calibration
+  90:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *         Calibration prerequisite: ADC must be disabled (execute this
+  91:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *         function before HAL_ADC_Start() or after HAL_ADC_Stop() ).
+  92:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @note   Calibration factor can be read after calibration, using function
+  93:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   *         HAL_ADC_GetValue() (value on 7 bits: from DR[6;0]).
+  94:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @param  hadc ADC handle
+  95:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   * @retval HAL status
+  96:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   */
+  97:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** HAL_StatusTypeDef HAL_ADCEx_Calibration_Start(ADC_HandleTypeDef* hadc)
+  98:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** {
+  29              		.loc 1 98 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  99:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   HAL_StatusTypeDef tmp_hal_status = HAL_OK;
+  33              		.loc 1 99 3 view .LVU1
+ 100:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   uint32_t tickstart = 0U;
+  34              		.loc 1 100 3 view .LVU2
+ 101:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   uint32_t backup_setting_adc_dma_transfer = 0; /* Note: Variable not declared as volatile because 
+  35              		.loc 1 101 3 view .LVU3
+ 102:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   
+ 103:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Check the parameters */
+ 104:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
+  36              		.loc 1 104 3 view .LVU4
+ 105:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 106:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Process locked */
+ 107:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   __HAL_LOCK(hadc);
+  37              		.loc 1 107 3 view .LVU5
+  38              		.loc 1 107 3 view .LVU6
+  39 0000 3423     		movs	r3, #52
+  98:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   HAL_StatusTypeDef tmp_hal_status = HAL_OK;
+  40              		.loc 1 98 1 is_stmt 0 view .LVU7
+  41 0002 70B5     		push	{r4, r5, r6, lr}
+  42              	.LCFI0:
+  43              		.cfi_def_cfa_offset 16
+  44              		.cfi_offset 4, -16
+  45              		.cfi_offset 5, -12
+  46              		.cfi_offset 6, -8
+  47              		.cfi_offset 14, -4
+  48              		.loc 1 107 3 view .LVU8
+  49 0004 C25C     		ldrb	r2, [r0, r3]
+  98:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   HAL_StatusTypeDef tmp_hal_status = HAL_OK;
+  50              		.loc 1 98 1 view .LVU9
+  51 0006 0400     		movs	r4, r0
+  52              		.loc 1 107 3 view .LVU10
+  53 0008 012A     		cmp	r2, #1
+  54 000a 4ED0     		beq	.L10
+  55              		.loc 1 107 3 is_stmt 1 discriminator 2 view .LVU11
+  56 000c 0122     		movs	r2, #1
+  57 000e C254     		strb	r2, [r0, r3]
+  58              		.loc 1 107 3 discriminator 2 view .LVU12
+ 108:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   
+ 109:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Calibration prerequisite: ADC must be disabled. */
+ 110:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   if (ADC_IS_ENABLE(hadc) == RESET)
+  59              		.loc 1 110 3 discriminator 2 view .LVU13
+  60              		.loc 1 110 7 is_stmt 0 discriminator 2 view .LVU14
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 4
+
+
+  61 0010 0368     		ldr	r3, [r0]
+  62 0012 0232     		adds	r2, r2, #2
+  63 0014 9968     		ldr	r1, [r3, #8]
+  64 0016 0A40     		ands	r2, r1
+  65 0018 012A     		cmp	r2, #1
+  66 001a 05D1     		bne	.L3
+  67              		.loc 1 110 7 discriminator 1 view .LVU15
+  68 001c 1968     		ldr	r1, [r3]
+  69 001e 0A42     		tst	r2, r1
+  70 0020 2ED1     		bne	.L4
+  71              		.loc 1 110 7 discriminator 4 view .LVU16
+  72 0022 DA68     		ldr	r2, [r3, #12]
+  73 0024 1204     		lsls	r2, r2, #16
+  74 0026 2BD4     		bmi	.L4
+  75              	.L3:
+ 111:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   {
+ 112:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Set ADC state */
+ 113:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     ADC_STATE_CLR_SET(hadc->State, 
+  76              		.loc 1 113 5 is_stmt 1 view .LVU17
+  77 0028 A26B     		ldr	r2, [r4, #56]
+  78 002a 2149     		ldr	r1, .L14
+  79 002c 0A40     		ands	r2, r1
+  80 002e 0631     		adds	r1, r1, #6
+  81 0030 FF31     		adds	r1, r1, #255
+  82 0032 0A43     		orrs	r2, r1
+  83 0034 A263     		str	r2, [r4, #56]
+ 114:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       HAL_ADC_STATE_REG_BUSY,
+ 115:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       HAL_ADC_STATE_BUSY_INTERNAL);
+ 116:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     
+ 117:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Disable ADC DMA transfer request during calibration */
+ 118:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Note: Specificity of this STM32 serie: Calibration factor is           */
+ 119:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /*       available in data register and also transfered by DMA.           */
+ 120:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /*       To not insert ADC calibration factor among ADC conversion data   */
+ 121:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /*       in array variable, DMA transfer must be disabled during          */
+ 122:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /*       calibration.                                                     */
+ 123:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     backup_setting_adc_dma_transfer = READ_BIT(hadc->Instance->CFGR1, ADC_CFGR1_DMAEN | ADC_CFGR1_D
+  84              		.loc 1 123 5 view .LVU18
+  85              		.loc 1 123 39 is_stmt 0 view .LVU19
+  86 0036 DE68     		ldr	r6, [r3, #12]
+  87              	.LVL1:
+ 124:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     CLEAR_BIT(hadc->Instance->CFGR1, ADC_CFGR1_DMAEN | ADC_CFGR1_DMACFG);
+  88              		.loc 1 124 5 is_stmt 1 view .LVU20
+  89 0038 DA68     		ldr	r2, [r3, #12]
+  90 003a 0131     		adds	r1, r1, #1
+  91 003c 8A43     		bics	r2, r1
+  92 003e DA60     		str	r2, [r3, #12]
+ 125:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 126:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Start ADC calibration */
+ 127:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     hadc->Instance->CR |= ADC_CR_ADCAL;
+  93              		.loc 1 127 5 view .LVU21
+  94              		.loc 1 127 24 is_stmt 0 view .LVU22
+  95 0040 8022     		movs	r2, #128
+  96 0042 9968     		ldr	r1, [r3, #8]
+  97 0044 1206     		lsls	r2, r2, #24
+  98 0046 0A43     		orrs	r2, r1
+  99 0048 9A60     		str	r2, [r3, #8]
+ 128:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 5
+
+
+ 129:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     tickstart = HAL_GetTick();  
+ 100              		.loc 1 129 5 is_stmt 1 view .LVU23
+ 101              		.loc 1 129 17 is_stmt 0 view .LVU24
+ 102 004a FFF7FEFF 		bl	HAL_GetTick
+ 103              	.LVL2:
+ 104              		.loc 1 129 17 view .LVU25
+ 105 004e 0500     		movs	r5, r0
+ 106              	.LVL3:
+ 130:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 131:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Wait for calibration completion */
+ 132:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     while(HAL_IS_BIT_SET(hadc->Instance->CR, ADC_CR_ADCAL))
+ 107              		.loc 1 132 5 is_stmt 1 view .LVU26
+ 108              		.loc 1 132 10 view .LVU27
+ 109              		.loc 1 132 11 is_stmt 0 view .LVU28
+ 110 0050 2368     		ldr	r3, [r4]
+ 111              	.LVL4:
+ 112              	.L12:
+ 113              		.loc 1 132 11 view .LVU29
+ 114 0052 9A68     		ldr	r2, [r3, #8]
+ 115              		.loc 1 132 10 view .LVU30
+ 116 0054 002A     		cmp	r2, #0
+ 117 0056 1CDA     		bge	.L5
+ 133:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     {
+ 134:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       if((HAL_GetTick() - tickstart) > ADC_CALIBRATION_TIMEOUT)
+ 118              		.loc 1 134 7 is_stmt 1 view .LVU31
+ 119              		.loc 1 134 11 is_stmt 0 view .LVU32
+ 120 0058 FFF7FEFF 		bl	HAL_GetTick
+ 121              	.LVL5:
+ 135:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       {
+ 136:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****         /* New check to avoid false timeout detection in case of preemption */
+ 137:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****         if(HAL_IS_BIT_SET(hadc->Instance->CR, ADC_CR_ADCAL))
+ 122              		.loc 1 137 12 view .LVU33
+ 123 005c 2368     		ldr	r3, [r4]
+ 134:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       {
+ 124              		.loc 1 134 25 view .LVU34
+ 125 005e 401B     		subs	r0, r0, r5
+ 134:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       {
+ 126              		.loc 1 134 9 view .LVU35
+ 127 0060 0228     		cmp	r0, #2
+ 128 0062 F6D9     		bls	.L12
+ 129              		.loc 1 137 9 is_stmt 1 view .LVU36
+ 130              		.loc 1 137 12 is_stmt 0 view .LVU37
+ 131 0064 9A68     		ldr	r2, [r3, #8]
+ 132              		.loc 1 137 11 view .LVU38
+ 133 0066 002A     		cmp	r2, #0
+ 134 0068 F3DA     		bge	.L12
+ 138:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****         {
+ 139:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****           /* Update ADC state machine to error */
+ 140:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****           ADC_STATE_CLR_SET(hadc->State,
+ 135              		.loc 1 140 11 is_stmt 1 view .LVU39
+ 136 006a 1222     		movs	r2, #18
+ 137 006c A36B     		ldr	r3, [r4, #56]
+ 141:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                             HAL_ADC_STATE_BUSY_INTERNAL,
+ 142:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                             HAL_ADC_STATE_ERROR_INTERNAL);
+ 143:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 144:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****           /* Process unlocked */
+ 145:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****           __HAL_UNLOCK(hadc);
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 6
+
+
+ 146:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 147:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****           return HAL_ERROR;
+ 138              		.loc 1 147 18 is_stmt 0 view .LVU40
+ 139 006e 0120     		movs	r0, #1
+ 140:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                             HAL_ADC_STATE_BUSY_INTERNAL,
+ 140              		.loc 1 140 11 view .LVU41
+ 141 0070 9343     		bics	r3, r2
+ 142 0072 023A     		subs	r2, r2, #2
+ 143 0074 1343     		orrs	r3, r2
+ 144 0076 A363     		str	r3, [r4, #56]
+ 145:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 145              		.loc 1 145 11 is_stmt 1 view .LVU42
+ 145:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 146              		.loc 1 145 11 view .LVU43
+ 147 0078 0022     		movs	r2, #0
+ 148 007a 3423     		movs	r3, #52
+ 149 007c E254     		strb	r2, [r4, r3]
+ 145:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 150              		.loc 1 145 11 view .LVU44
+ 151              		.loc 1 147 11 view .LVU45
+ 152              		.loc 1 147 18 is_stmt 0 view .LVU46
+ 153 007e 07E0     		b	.L2
+ 154              	.LVL6:
+ 155              	.L4:
+ 148:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****         }
+ 149:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****       }
+ 150:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     }
+ 151:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     
+ 152:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Restore ADC DMA transfer request after calibration */
+ 153:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     SET_BIT(hadc->Instance->CFGR1, backup_setting_adc_dma_transfer);
+ 154:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 155:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Set ADC state */
+ 156:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     ADC_STATE_CLR_SET(hadc->State,
+ 157:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       HAL_ADC_STATE_BUSY_INTERNAL,
+ 158:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       HAL_ADC_STATE_READY);
+ 159:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   }
+ 160:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   else
+ 161:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   {
+ 162:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     /* Update ADC state machine to error */
+ 163:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     SET_BIT(hadc->State, HAL_ADC_STATE_ERROR_CONFIG);
+ 156              		.loc 1 163 5 is_stmt 1 view .LVU47
+ 157 0080 2022     		movs	r2, #32
+ 164:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     
+ 165:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     tmp_hal_status = HAL_ERROR;
+ 158              		.loc 1 165 20 is_stmt 0 view .LVU48
+ 159 0082 0120     		movs	r0, #1
+ 160              	.LVL7:
+ 163:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     
+ 161              		.loc 1 163 5 view .LVU49
+ 162 0084 A36B     		ldr	r3, [r4, #56]
+ 163 0086 1343     		orrs	r3, r2
+ 164 0088 A363     		str	r3, [r4, #56]
+ 165              		.loc 1 165 5 is_stmt 1 view .LVU50
+ 166              	.LVL8:
+ 167              	.L9:
+ 166:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   }
+ 167:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 7
+
+
+ 168:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Process unlocked */
+ 169:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   __HAL_UNLOCK(hadc);
+ 168              		.loc 1 169 3 view .LVU51
+ 169              		.loc 1 169 3 view .LVU52
+ 170 008a 3423     		movs	r3, #52
+ 171 008c 0022     		movs	r2, #0
+ 172 008e E254     		strb	r2, [r4, r3]
+ 173              		.loc 1 169 3 view .LVU53
+ 170:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   
+ 171:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   /* Return function status */
+ 172:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   return tmp_hal_status;
+ 174              		.loc 1 172 3 view .LVU54
+ 175              	.LVL9:
+ 176              	.L2:
+ 173:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** }
+ 177              		.loc 1 173 1 is_stmt 0 view .LVU55
+ 178              		@ sp needed
+ 179              	.LVL10:
+ 180              		.loc 1 173 1 view .LVU56
+ 181 0090 70BD     		pop	{r4, r5, r6, pc}
+ 182              	.LVL11:
+ 183              	.L5:
+ 153:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 184              		.loc 1 153 5 is_stmt 1 view .LVU57
+ 123:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     CLEAR_BIT(hadc->Instance->CFGR1, ADC_CFGR1_DMAEN | ADC_CFGR1_DMACFG);
+ 185              		.loc 1 123 37 is_stmt 0 view .LVU58
+ 186 0092 0322     		movs	r2, #3
+ 153:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 187              		.loc 1 153 5 view .LVU59
+ 188 0094 D968     		ldr	r1, [r3, #12]
+ 123:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****     CLEAR_BIT(hadc->Instance->CFGR1, ADC_CFGR1_DMAEN | ADC_CFGR1_DMACFG);
+ 189              		.loc 1 123 37 view .LVU60
+ 190 0096 1640     		ands	r6, r2
+ 191              	.LVL12:
+ 153:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c **** 
+ 192              		.loc 1 153 5 view .LVU61
+ 193 0098 0E43     		orrs	r6, r1
+ 194 009a DE60     		str	r6, [r3, #12]
+ 156:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       HAL_ADC_STATE_BUSY_INTERNAL,
+ 195              		.loc 1 156 5 is_stmt 1 view .LVU62
+ 196 009c A36B     		ldr	r3, [r4, #56]
+  99:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   uint32_t tickstart = 0U;
+ 197              		.loc 1 99 21 is_stmt 0 view .LVU63
+ 198 009e 0020     		movs	r0, #0
+ 156:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****                       HAL_ADC_STATE_BUSY_INTERNAL,
+ 199              		.loc 1 156 5 view .LVU64
+ 200 00a0 9343     		bics	r3, r2
+ 201 00a2 023A     		subs	r2, r2, #2
+ 202 00a4 1343     		orrs	r3, r2
+ 203 00a6 A363     		str	r3, [r4, #56]
+ 204 00a8 EFE7     		b	.L9
+ 205              	.LVL13:
+ 206              	.L10:
+ 107:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   
+ 207              		.loc 1 107 3 view .LVU65
+ 208 00aa 0220     		movs	r0, #2
+ 209              	.LVL14:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 8
+
+
+ 107:Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc_ex.c ****   
+ 210              		.loc 1 107 3 view .LVU66
+ 211 00ac F0E7     		b	.L2
+ 212              	.L15:
+ 213 00ae C046     		.align	2
+ 214              	.L14:
+ 215 00b0 FDFEFFFF 		.word	-259
+ 216              		.cfi_endproc
+ 217              	.LFE40:
+ 219              		.text
+ 220              	.Letext0:
+ 221              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 222              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 223              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 224              		.file 5 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h"
+ 225              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 226              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 227              		.file 8 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_adc.h"
+ 228              		.file 9 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 stm32f0xx_hal_adc_ex.c
+C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s:18     .text.HAL_ADCEx_Calibration_Start:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s:25     .text.HAL_ADCEx_Calibration_Start:0000000000000000 HAL_ADCEx_Calibration_Start
+C:\Users\rokko\AppData\Local\Temp\ccyptkgo.s:215    .text.HAL_ADCEx_Calibration_Start:00000000000000b0 $d
+
+UNDEFINED SYMBOLS
+HAL_GetTick

@@ -1,0 +1,270 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"gpio.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_GPIO_Init,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	MX_GPIO_Init
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	MX_GPIO_Init:
+  26              	.LFB40:
+  27              		.file 1 "Src/gpio.c"
+   1:Src/gpio.c    **** /**
+   2:Src/gpio.c    ****   ******************************************************************************
+   3:Src/gpio.c    ****   * @file    gpio.c
+   4:Src/gpio.c    ****   * @brief   This file provides code for the configuration
+   5:Src/gpio.c    ****   *          of all used GPIO pins.
+   6:Src/gpio.c    ****   ******************************************************************************
+   7:Src/gpio.c    ****   * @attention
+   8:Src/gpio.c    ****   *
+   9:Src/gpio.c    ****   * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  10:Src/gpio.c    ****   * All rights reserved.</center></h2>
+  11:Src/gpio.c    ****   *
+  12:Src/gpio.c    ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/gpio.c    ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/gpio.c    ****   * License. You may obtain a copy of the License at:
+  15:Src/gpio.c    ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/gpio.c    ****   *
+  17:Src/gpio.c    ****   ******************************************************************************
+  18:Src/gpio.c    ****   */
+  19:Src/gpio.c    **** 
+  20:Src/gpio.c    **** /* Includes ------------------------------------------------------------------*/
+  21:Src/gpio.c    **** #include "gpio.h"
+  22:Src/gpio.c    **** 
+  23:Src/gpio.c    **** /* USER CODE BEGIN 0 */
+  24:Src/gpio.c    **** 
+  25:Src/gpio.c    **** /* USER CODE END 0 */
+  26:Src/gpio.c    **** 
+  27:Src/gpio.c    **** /*----------------------------------------------------------------------------*/
+  28:Src/gpio.c    **** /* Configure GPIO                                                             */
+  29:Src/gpio.c    **** /*----------------------------------------------------------------------------*/
+  30:Src/gpio.c    **** /* USER CODE BEGIN 1 */
+  31:Src/gpio.c    **** 
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s 			page 2
+
+
+  32:Src/gpio.c    **** /* USER CODE END 1 */
+  33:Src/gpio.c    **** 
+  34:Src/gpio.c    **** /** Configure pins as
+  35:Src/gpio.c    ****         * Analog
+  36:Src/gpio.c    ****         * Input
+  37:Src/gpio.c    ****         * Output
+  38:Src/gpio.c    ****         * EVENT_OUT
+  39:Src/gpio.c    ****         * EXTI
+  40:Src/gpio.c    **** */
+  41:Src/gpio.c    **** void MX_GPIO_Init(void)
+  42:Src/gpio.c    **** {
+  28              		.loc 1 42 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 32
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  43:Src/gpio.c    **** 
+  44:Src/gpio.c    ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  32              		.loc 1 44 3 view .LVU1
+  42:Src/gpio.c    **** 
+  33              		.loc 1 42 1 is_stmt 0 view .LVU2
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 88B0     		sub	sp, sp, #32
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 40
+  42              		.loc 1 44 20 view .LVU3
+  43 0004 1422     		movs	r2, #20
+  44 0006 0021     		movs	r1, #0
+  45 0008 03A8     		add	r0, sp, #12
+  46 000a FFF7FEFF 		bl	memset
+  47              	.LVL0:
+  45:Src/gpio.c    **** 
+  46:Src/gpio.c    ****   /* GPIO Ports Clock Enable */
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOF_CLK_ENABLE();
+  48              		.loc 1 47 3 is_stmt 1 view .LVU4
+  49              	.LBB2:
+  50              		.loc 1 47 3 view .LVU5
+  51              		.loc 1 47 3 view .LVU6
+  52 000e 8020     		movs	r0, #128
+  53 0010 124B     		ldr	r3, .L3
+  54 0012 C003     		lsls	r0, r0, #15
+  55 0014 5969     		ldr	r1, [r3, #20]
+  56              	.LBE2:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  49:Src/gpio.c    **** 
+  50:Src/gpio.c    ****   /*Configure GPIO pin Output Level */
+  51:Src/gpio.c    ****   HAL_GPIO_WritePin(TRIAC_1_GPIO_Port, TRIAC_1_Pin, GPIO_PIN_RESET);
+  57              		.loc 1 51 3 is_stmt 0 view .LVU7
+  58 0016 9024     		movs	r4, #144
+  59              	.LBB3:
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  60              		.loc 1 47 3 view .LVU8
+  61 0018 0143     		orrs	r1, r0
+  62 001a 5961     		str	r1, [r3, #20]
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s 			page 3
+
+
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  63              		.loc 1 47 3 is_stmt 1 view .LVU9
+  64              	.LBE3:
+  65              	.LBB4:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  66              		.loc 1 48 3 is_stmt 0 view .LVU10
+  67 001c 8021     		movs	r1, #128
+  68              	.LBE4:
+  69              	.LBB5:
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  70              		.loc 1 47 3 view .LVU11
+  71 001e 5A69     		ldr	r2, [r3, #20]
+  72              	.LBE5:
+  73              	.LBB6:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  74              		.loc 1 48 3 view .LVU12
+  75 0020 8902     		lsls	r1, r1, #10
+  76              	.LBE6:
+  77              	.LBB7:
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  78              		.loc 1 47 3 view .LVU13
+  79 0022 0240     		ands	r2, r0
+  80 0024 0192     		str	r2, [sp, #4]
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  81              		.loc 1 47 3 is_stmt 1 view .LVU14
+  82 0026 019A     		ldr	r2, [sp, #4]
+  83              	.LBE7:
+  47:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  84              		.loc 1 47 3 view .LVU15
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  85              		.loc 1 48 3 view .LVU16
+  86              	.LBB8:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  87              		.loc 1 48 3 view .LVU17
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  88              		.loc 1 48 3 view .LVU18
+  89 0028 5A69     		ldr	r2, [r3, #20]
+  90              	.LBE8:
+  91              		.loc 1 51 3 is_stmt 0 view .LVU19
+  92 002a E405     		lsls	r4, r4, #23
+  93              	.LBB9:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  94              		.loc 1 48 3 view .LVU20
+  95 002c 0A43     		orrs	r2, r1
+  96 002e 5A61     		str	r2, [r3, #20]
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  97              		.loc 1 48 3 is_stmt 1 view .LVU21
+  98 0030 5B69     		ldr	r3, [r3, #20]
+  99              	.LBE9:
+ 100              		.loc 1 51 3 is_stmt 0 view .LVU22
+ 101 0032 0022     		movs	r2, #0
+ 102              	.LBB10:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+ 103              		.loc 1 48 3 view .LVU23
+ 104 0034 0B40     		ands	r3, r1
+ 105              	.LBE10:
+ 106              		.loc 1 51 3 view .LVU24
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s 			page 4
+
+
+ 107 0036 2000     		movs	r0, r4
+ 108              	.LBB11:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+ 109              		.loc 1 48 3 view .LVU25
+ 110 0038 0293     		str	r3, [sp, #8]
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+ 111              		.loc 1 48 3 is_stmt 1 view .LVU26
+ 112              	.LBE11:
+ 113              		.loc 1 51 3 is_stmt 0 view .LVU27
+ 114 003a 1021     		movs	r1, #16
+ 115              	.LBB12:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+ 116              		.loc 1 48 3 view .LVU28
+ 117 003c 029B     		ldr	r3, [sp, #8]
+ 118              	.LBE12:
+  48:Src/gpio.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+ 119              		.loc 1 48 3 is_stmt 1 view .LVU29
+ 120              		.loc 1 51 3 view .LVU30
+ 121 003e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 122              	.LVL1:
+  52:Src/gpio.c    **** 
+  53:Src/gpio.c    ****   /*Configure GPIO pin : PtPin */
+  54:Src/gpio.c    ****   GPIO_InitStruct.Pin = TRIAC_1_Pin;
+ 123              		.loc 1 54 3 view .LVU31
+ 124              		.loc 1 54 23 is_stmt 0 view .LVU32
+ 125 0042 1023     		movs	r3, #16
+ 126 0044 0393     		str	r3, [sp, #12]
+  55:Src/gpio.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+ 127              		.loc 1 55 3 is_stmt 1 view .LVU33
+ 128              		.loc 1 55 24 is_stmt 0 view .LVU34
+ 129 0046 0F3B     		subs	r3, r3, #15
+ 130 0048 0493     		str	r3, [sp, #16]
+  56:Src/gpio.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 131              		.loc 1 56 3 is_stmt 1 view .LVU35
+ 132              		.loc 1 56 24 is_stmt 0 view .LVU36
+ 133 004a 0023     		movs	r3, #0
+  57:Src/gpio.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  58:Src/gpio.c    ****   HAL_GPIO_Init(TRIAC_1_GPIO_Port, &GPIO_InitStruct);
+ 134              		.loc 1 58 3 view .LVU37
+ 135 004c 2000     		movs	r0, r4
+ 136 004e 03A9     		add	r1, sp, #12
+  56:Src/gpio.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 137              		.loc 1 56 24 view .LVU38
+ 138 0050 0593     		str	r3, [sp, #20]
+  57:Src/gpio.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 139              		.loc 1 57 3 is_stmt 1 view .LVU39
+  57:Src/gpio.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 140              		.loc 1 57 25 is_stmt 0 view .LVU40
+ 141 0052 0693     		str	r3, [sp, #24]
+ 142              		.loc 1 58 3 is_stmt 1 view .LVU41
+ 143 0054 FFF7FEFF 		bl	HAL_GPIO_Init
+ 144              	.LVL2:
+  59:Src/gpio.c    **** 
+  60:Src/gpio.c    **** }
+ 145              		.loc 1 60 1 is_stmt 0 view .LVU42
+ 146 0058 08B0     		add	sp, sp, #32
+ 147              		@ sp needed
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s 			page 5
+
+
+ 148 005a 10BD     		pop	{r4, pc}
+ 149              	.L4:
+ 150              		.align	2
+ 151              	.L3:
+ 152 005c 00100240 		.word	1073876992
+ 153              		.cfi_endproc
+ 154              	.LFE40:
+ 156              		.text
+ 157              	.Letext0:
+ 158              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 159              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 160              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 161              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
+ 162              		.file 6 "<built-in>"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 gpio.c
+C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s:18     .text.MX_GPIO_Init:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s:25     .text.MX_GPIO_Init:0000000000000000 MX_GPIO_Init
+C:\Users\rokko\AppData\Local\Temp\cck0Llq8.s:152    .text.MX_GPIO_Init:000000000000005c $d
+
+UNDEFINED SYMBOLS
+memset
+HAL_GPIO_WritePin
+HAL_GPIO_Init

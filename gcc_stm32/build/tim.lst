@@ -1,0 +1,555 @@
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 2
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"tim.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.MX_TIM1_Init,"ax",%progbits
+  18              		.align	1
+  19              		.p2align 2,,3
+  20              		.global	MX_TIM1_Init
+  21              		.syntax unified
+  22              		.code	16
+  23              		.thumb_func
+  25              	MX_TIM1_Init:
+  26              	.LFB40:
+  27              		.file 1 "Src/tim.c"
+   1:Src/tim.c     **** /**
+   2:Src/tim.c     ****   ******************************************************************************
+   3:Src/tim.c     ****   * @file    tim.c
+   4:Src/tim.c     ****   * @brief   This file provides code for the configuration
+   5:Src/tim.c     ****   *          of the TIM instances.
+   6:Src/tim.c     ****   ******************************************************************************
+   7:Src/tim.c     ****   * @attention
+   8:Src/tim.c     ****   *
+   9:Src/tim.c     ****   * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
+  10:Src/tim.c     ****   * All rights reserved.</center></h2>
+  11:Src/tim.c     ****   *
+  12:Src/tim.c     ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/tim.c     ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/tim.c     ****   * License. You may obtain a copy of the License at:
+  15:Src/tim.c     ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/tim.c     ****   *
+  17:Src/tim.c     ****   ******************************************************************************
+  18:Src/tim.c     ****   */
+  19:Src/tim.c     **** 
+  20:Src/tim.c     **** /* Includes ------------------------------------------------------------------*/
+  21:Src/tim.c     **** #include "tim.h"
+  22:Src/tim.c     **** 
+  23:Src/tim.c     **** /* USER CODE BEGIN 0 */
+  24:Src/tim.c     **** 
+  25:Src/tim.c     **** /* USER CODE END 0 */
+  26:Src/tim.c     **** 
+  27:Src/tim.c     **** TIM_HandleTypeDef htim1;
+  28:Src/tim.c     **** 
+  29:Src/tim.c     **** /* TIM1 init function */
+  30:Src/tim.c     **** void MX_TIM1_Init(void)
+  31:Src/tim.c     **** {
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 2
+
+
+  28              		.loc 1 31 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 24
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32:Src/tim.c     **** 
+  33:Src/tim.c     ****   /* USER CODE BEGIN TIM1_Init 0 */
+  34:Src/tim.c     **** 
+  35:Src/tim.c     ****   /* USER CODE END TIM1_Init 0 */
+  36:Src/tim.c     **** 
+  37:Src/tim.c     ****   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  32              		.loc 1 37 3 view .LVU1
+  31:Src/tim.c     **** 
+  33              		.loc 1 31 1 is_stmt 0 view .LVU2
+  34 0000 10B5     		push	{r4, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+  39 0002 86B0     		sub	sp, sp, #24
+  40              	.LCFI1:
+  41              		.cfi_def_cfa_offset 32
+  42              		.loc 1 37 26 view .LVU3
+  43 0004 1022     		movs	r2, #16
+  44 0006 0021     		movs	r1, #0
+  45 0008 02A8     		add	r0, sp, #8
+  46 000a FFF7FEFF 		bl	memset
+  47              	.LVL0:
+  38:Src/tim.c     ****   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  48              		.loc 1 38 3 is_stmt 1 view .LVU4
+  49              		.loc 1 38 27 is_stmt 0 view .LVU5
+  50 000e 0822     		movs	r2, #8
+  51 0010 0021     		movs	r1, #0
+  52 0012 6846     		mov	r0, sp
+  53 0014 FFF7FEFF 		bl	memset
+  54              	.LVL1:
+  39:Src/tim.c     **** 
+  40:Src/tim.c     ****   /* USER CODE BEGIN TIM1_Init 1 */
+  41:Src/tim.c     **** 
+  42:Src/tim.c     ****   /* USER CODE END TIM1_Init 1 */
+  43:Src/tim.c     ****   htim1.Instance = TIM1;
+  55              		.loc 1 43 3 is_stmt 1 view .LVU6
+  56              		.loc 1 43 18 is_stmt 0 view .LVU7
+  57 0018 164C     		ldr	r4, .L18
+  58 001a 174B     		ldr	r3, .L18+4
+  44:Src/tim.c     ****   htim1.Init.Prescaler = 4799;
+  45:Src/tim.c     ****   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  46:Src/tim.c     ****   htim1.Init.Period = 9;
+  59              		.loc 1 46 21 view .LVU8
+  60 001c 0922     		movs	r2, #9
+  43:Src/tim.c     ****   htim1.Init.Prescaler = 4799;
+  61              		.loc 1 43 18 view .LVU9
+  62 001e 2360     		str	r3, [r4]
+  44:Src/tim.c     ****   htim1.Init.Prescaler = 4799;
+  63              		.loc 1 44 3 is_stmt 1 view .LVU10
+  44:Src/tim.c     ****   htim1.Init.Prescaler = 4799;
+  64              		.loc 1 44 24 is_stmt 0 view .LVU11
+  65 0020 164B     		ldr	r3, .L18+8
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 3
+
+
+  47:Src/tim.c     ****   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  48:Src/tim.c     ****   htim1.Init.RepetitionCounter = 0;
+  49:Src/tim.c     ****   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  50:Src/tim.c     ****   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  66              		.loc 1 50 7 view .LVU12
+  67 0022 2000     		movs	r0, r4
+  44:Src/tim.c     ****   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  68              		.loc 1 44 24 view .LVU13
+  69 0024 6360     		str	r3, [r4, #4]
+  45:Src/tim.c     ****   htim1.Init.Period = 9;
+  70              		.loc 1 45 3 is_stmt 1 view .LVU14
+  45:Src/tim.c     ****   htim1.Init.Period = 9;
+  71              		.loc 1 45 26 is_stmt 0 view .LVU15
+  72 0026 0023     		movs	r3, #0
+  46:Src/tim.c     ****   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  73              		.loc 1 46 21 view .LVU16
+  74 0028 E260     		str	r2, [r4, #12]
+  45:Src/tim.c     ****   htim1.Init.Period = 9;
+  75              		.loc 1 45 26 view .LVU17
+  76 002a A360     		str	r3, [r4, #8]
+  46:Src/tim.c     ****   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  77              		.loc 1 46 3 is_stmt 1 view .LVU18
+  47:Src/tim.c     ****   htim1.Init.RepetitionCounter = 0;
+  78              		.loc 1 47 3 view .LVU19
+  47:Src/tim.c     ****   htim1.Init.RepetitionCounter = 0;
+  79              		.loc 1 47 28 is_stmt 0 view .LVU20
+  80 002c 2361     		str	r3, [r4, #16]
+  48:Src/tim.c     ****   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  81              		.loc 1 48 3 is_stmt 1 view .LVU21
+  48:Src/tim.c     ****   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  82              		.loc 1 48 32 is_stmt 0 view .LVU22
+  83 002e 6361     		str	r3, [r4, #20]
+  49:Src/tim.c     ****   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  84              		.loc 1 49 3 is_stmt 1 view .LVU23
+  49:Src/tim.c     ****   if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  85              		.loc 1 49 32 is_stmt 0 view .LVU24
+  86 0030 A361     		str	r3, [r4, #24]
+  87              		.loc 1 50 3 is_stmt 1 view .LVU25
+  88              		.loc 1 50 7 is_stmt 0 view .LVU26
+  89 0032 FFF7FEFF 		bl	HAL_TIM_Base_Init
+  90              	.LVL2:
+  91              		.loc 1 50 6 view .LVU27
+  92 0036 0028     		cmp	r0, #0
+  93 0038 13D1     		bne	.L15
+  94              	.L2:
+  51:Src/tim.c     ****   {
+  52:Src/tim.c     ****     Error_Handler();
+  53:Src/tim.c     ****   }
+  54:Src/tim.c     ****   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  95              		.loc 1 54 3 is_stmt 1 view .LVU28
+  96              		.loc 1 54 34 is_stmt 0 view .LVU29
+  97 003a 8023     		movs	r3, #128
+  55:Src/tim.c     ****   if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  98              		.loc 1 55 7 view .LVU30
+  99 003c 2000     		movs	r0, r4
+  54:Src/tim.c     ****   if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+ 100              		.loc 1 54 34 view .LVU31
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 4
+
+
+ 101 003e 5B01     		lsls	r3, r3, #5
+ 102              		.loc 1 55 7 view .LVU32
+ 103 0040 02A9     		add	r1, sp, #8
+  54:Src/tim.c     ****   if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+ 104              		.loc 1 54 34 view .LVU33
+ 105 0042 0293     		str	r3, [sp, #8]
+ 106              		.loc 1 55 3 is_stmt 1 view .LVU34
+ 107              		.loc 1 55 7 is_stmt 0 view .LVU35
+ 108 0044 FFF7FEFF 		bl	HAL_TIM_ConfigClockSource
+ 109              	.LVL3:
+ 110              		.loc 1 55 6 view .LVU36
+ 111 0048 0028     		cmp	r0, #0
+ 112 004a 10D1     		bne	.L16
+ 113              	.L3:
+  56:Src/tim.c     ****   {
+  57:Src/tim.c     ****     Error_Handler();
+  58:Src/tim.c     ****   }
+  59:Src/tim.c     ****   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+ 114              		.loc 1 59 3 is_stmt 1 view .LVU37
+ 115              		.loc 1 59 37 is_stmt 0 view .LVU38
+ 116 004c 0023     		movs	r3, #0
+  60:Src/tim.c     ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  61:Src/tim.c     ****   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+ 117              		.loc 1 61 7 view .LVU39
+ 118 004e 6946     		mov	r1, sp
+ 119 0050 2000     		movs	r0, r4
+  59:Src/tim.c     ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ 120              		.loc 1 59 37 view .LVU40
+ 121 0052 0093     		str	r3, [sp]
+  60:Src/tim.c     ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ 122              		.loc 1 60 3 is_stmt 1 view .LVU41
+  60:Src/tim.c     ****   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+ 123              		.loc 1 60 33 is_stmt 0 view .LVU42
+ 124 0054 0193     		str	r3, [sp, #4]
+ 125              		.loc 1 61 3 is_stmt 1 view .LVU43
+ 126              		.loc 1 61 7 is_stmt 0 view .LVU44
+ 127 0056 FFF7FEFF 		bl	HAL_TIMEx_MasterConfigSynchronization
+ 128              	.LVL4:
+ 129              		.loc 1 61 6 view .LVU45
+ 130 005a 0028     		cmp	r0, #0
+ 131 005c 04D1     		bne	.L17
+ 132              	.L1:
+  62:Src/tim.c     ****   {
+  63:Src/tim.c     ****     Error_Handler();
+  64:Src/tim.c     ****   }
+  65:Src/tim.c     ****   /* USER CODE BEGIN TIM1_Init 2 */
+  66:Src/tim.c     **** 
+  67:Src/tim.c     ****   /* USER CODE END TIM1_Init 2 */
+  68:Src/tim.c     **** 
+  69:Src/tim.c     **** }
+ 133              		.loc 1 69 1 view .LVU46
+ 134 005e 06B0     		add	sp, sp, #24
+ 135              		@ sp needed
+ 136 0060 10BD     		pop	{r4, pc}
+ 137              	.L15:
+  52:Src/tim.c     ****   }
+ 138              		.loc 1 52 5 is_stmt 1 view .LVU47
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 5
+
+
+ 139 0062 FFF7FEFF 		bl	Error_Handler
+ 140              	.LVL5:
+ 141 0066 E8E7     		b	.L2
+ 142              	.L17:
+  63:Src/tim.c     ****   }
+ 143              		.loc 1 63 5 view .LVU48
+ 144 0068 FFF7FEFF 		bl	Error_Handler
+ 145              	.LVL6:
+ 146              		.loc 1 69 1 is_stmt 0 view .LVU49
+ 147 006c F7E7     		b	.L1
+ 148              	.L16:
+  57:Src/tim.c     ****   }
+ 149              		.loc 1 57 5 is_stmt 1 view .LVU50
+ 150 006e FFF7FEFF 		bl	Error_Handler
+ 151              	.LVL7:
+ 152 0072 EBE7     		b	.L3
+ 153              	.L19:
+ 154              		.align	2
+ 155              	.L18:
+ 156 0074 00000000 		.word	.LANCHOR0
+ 157 0078 002C0140 		.word	1073818624
+ 158 007c BF120000 		.word	4799
+ 159              		.cfi_endproc
+ 160              	.LFE40:
+ 162              		.section	.text.HAL_TIM_Base_MspInit,"ax",%progbits
+ 163              		.align	1
+ 164              		.p2align 2,,3
+ 165              		.global	HAL_TIM_Base_MspInit
+ 166              		.syntax unified
+ 167              		.code	16
+ 168              		.thumb_func
+ 170              	HAL_TIM_Base_MspInit:
+ 171              	.LVL8:
+ 172              	.LFB41:
+  70:Src/tim.c     **** 
+  71:Src/tim.c     **** void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
+  72:Src/tim.c     **** {
+ 173              		.loc 1 72 1 view -0
+ 174              		.cfi_startproc
+ 175              		@ args = 0, pretend = 0, frame = 8
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+  73:Src/tim.c     **** 
+  74:Src/tim.c     ****   if(tim_baseHandle->Instance==TIM1)
+ 177              		.loc 1 74 3 view .LVU52
+  72:Src/tim.c     **** 
+ 178              		.loc 1 72 1 is_stmt 0 view .LVU53
+ 179 0000 00B5     		push	{lr}
+ 180              	.LCFI2:
+ 181              		.cfi_def_cfa_offset 4
+ 182              		.cfi_offset 14, -4
+ 183              		.loc 1 74 5 view .LVU54
+ 184 0002 114B     		ldr	r3, .L23
+ 185 0004 0268     		ldr	r2, [r0]
+  72:Src/tim.c     **** 
+ 186              		.loc 1 72 1 view .LVU55
+ 187 0006 83B0     		sub	sp, sp, #12
+ 188              	.LCFI3:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 6
+
+
+ 189              		.cfi_def_cfa_offset 16
+ 190              		.loc 1 74 5 view .LVU56
+ 191 0008 9A42     		cmp	r2, r3
+ 192 000a 01D0     		beq	.L22
+ 193              	.LVL9:
+ 194              	.L20:
+  75:Src/tim.c     ****   {
+  76:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspInit 0 */
+  77:Src/tim.c     **** 
+  78:Src/tim.c     ****   /* USER CODE END TIM1_MspInit 0 */
+  79:Src/tim.c     ****     /* TIM1 clock enable */
+  80:Src/tim.c     ****     __HAL_RCC_TIM1_CLK_ENABLE();
+  81:Src/tim.c     **** 
+  82:Src/tim.c     ****     /* TIM1 interrupt Init */
+  83:Src/tim.c     ****     HAL_NVIC_SetPriority(TIM1_BRK_UP_TRG_COM_IRQn, 0, 0);
+  84:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+  85:Src/tim.c     ****     HAL_NVIC_SetPriority(TIM1_CC_IRQn, 0, 0);
+  86:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+  87:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspInit 1 */
+  88:Src/tim.c     **** 
+  89:Src/tim.c     ****   /* USER CODE END TIM1_MspInit 1 */
+  90:Src/tim.c     ****   }
+  91:Src/tim.c     **** }
+ 195              		.loc 1 91 1 view .LVU57
+ 196 000c 03B0     		add	sp, sp, #12
+ 197              		@ sp needed
+ 198 000e 00BD     		pop	{pc}
+ 199              	.LVL10:
+ 200              	.L22:
+  80:Src/tim.c     **** 
+ 201              		.loc 1 80 5 is_stmt 1 view .LVU58
+ 202              	.LBB2:
+  80:Src/tim.c     **** 
+ 203              		.loc 1 80 5 view .LVU59
+  80:Src/tim.c     **** 
+ 204              		.loc 1 80 5 view .LVU60
+ 205 0010 8020     		movs	r0, #128
+ 206              	.LVL11:
+  80:Src/tim.c     **** 
+ 207              		.loc 1 80 5 is_stmt 0 view .LVU61
+ 208 0012 0E4A     		ldr	r2, .L23+4
+ 209 0014 0001     		lsls	r0, r0, #4
+ 210 0016 9169     		ldr	r1, [r2, #24]
+ 211 0018 0143     		orrs	r1, r0
+ 212 001a 9161     		str	r1, [r2, #24]
+  80:Src/tim.c     **** 
+ 213              		.loc 1 80 5 is_stmt 1 view .LVU62
+ 214 001c 9369     		ldr	r3, [r2, #24]
+ 215              	.LBE2:
+  83:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+ 216              		.loc 1 83 5 is_stmt 0 view .LVU63
+ 217 001e 0021     		movs	r1, #0
+ 218              	.LBB3:
+  80:Src/tim.c     **** 
+ 219              		.loc 1 80 5 view .LVU64
+ 220 0020 0340     		ands	r3, r0
+ 221              	.LBE3:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 7
+
+
+  83:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+ 222              		.loc 1 83 5 view .LVU65
+ 223 0022 0022     		movs	r2, #0
+ 224              	.LBB4:
+  80:Src/tim.c     **** 
+ 225              		.loc 1 80 5 view .LVU66
+ 226 0024 0193     		str	r3, [sp, #4]
+  80:Src/tim.c     **** 
+ 227              		.loc 1 80 5 is_stmt 1 view .LVU67
+ 228              	.LBE4:
+  83:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+ 229              		.loc 1 83 5 is_stmt 0 view .LVU68
+ 230 0026 0D20     		movs	r0, #13
+ 231              	.LBB5:
+  80:Src/tim.c     **** 
+ 232              		.loc 1 80 5 view .LVU69
+ 233 0028 019B     		ldr	r3, [sp, #4]
+ 234              	.LBE5:
+  80:Src/tim.c     **** 
+ 235              		.loc 1 80 5 is_stmt 1 view .LVU70
+  83:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+ 236              		.loc 1 83 5 view .LVU71
+ 237 002a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 238              	.LVL12:
+  84:Src/tim.c     ****     HAL_NVIC_SetPriority(TIM1_CC_IRQn, 0, 0);
+ 239              		.loc 1 84 5 view .LVU72
+ 240 002e 0D20     		movs	r0, #13
+ 241 0030 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 242              	.LVL13:
+  85:Src/tim.c     ****     HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+ 243              		.loc 1 85 5 view .LVU73
+ 244 0034 0022     		movs	r2, #0
+ 245 0036 0021     		movs	r1, #0
+ 246 0038 0E20     		movs	r0, #14
+ 247 003a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 248              	.LVL14:
+  86:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspInit 1 */
+ 249              		.loc 1 86 5 view .LVU74
+ 250 003e 0E20     		movs	r0, #14
+ 251 0040 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 252              	.LVL15:
+ 253              		.loc 1 91 1 is_stmt 0 view .LVU75
+ 254 0044 E2E7     		b	.L20
+ 255              	.L24:
+ 256 0046 C046     		.align	2
+ 257              	.L23:
+ 258 0048 002C0140 		.word	1073818624
+ 259 004c 00100240 		.word	1073876992
+ 260              		.cfi_endproc
+ 261              	.LFE41:
+ 263              		.section	.text.HAL_TIM_Base_MspDeInit,"ax",%progbits
+ 264              		.align	1
+ 265              		.p2align 2,,3
+ 266              		.global	HAL_TIM_Base_MspDeInit
+ 267              		.syntax unified
+ 268              		.code	16
+ 269              		.thumb_func
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 8
+
+
+ 271              	HAL_TIM_Base_MspDeInit:
+ 272              	.LVL16:
+ 273              	.LFB42:
+  92:Src/tim.c     **** 
+  93:Src/tim.c     **** void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
+  94:Src/tim.c     **** {
+ 274              		.loc 1 94 1 is_stmt 1 view -0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 0
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+  95:Src/tim.c     **** 
+  96:Src/tim.c     ****   if(tim_baseHandle->Instance==TIM1)
+ 278              		.loc 1 96 3 view .LVU77
+ 279              		.loc 1 96 5 is_stmt 0 view .LVU78
+ 280 0000 084B     		ldr	r3, .L28
+ 281 0002 0268     		ldr	r2, [r0]
+  94:Src/tim.c     **** 
+ 282              		.loc 1 94 1 view .LVU79
+ 283 0004 10B5     		push	{r4, lr}
+ 284              	.LCFI4:
+ 285              		.cfi_def_cfa_offset 8
+ 286              		.cfi_offset 4, -8
+ 287              		.cfi_offset 14, -4
+ 288              		.loc 1 96 5 view .LVU80
+ 289 0006 9A42     		cmp	r2, r3
+ 290 0008 00D0     		beq	.L27
+ 291              	.LVL17:
+ 292              	.L25:
+  97:Src/tim.c     ****   {
+  98:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspDeInit 0 */
+  99:Src/tim.c     **** 
+ 100:Src/tim.c     ****   /* USER CODE END TIM1_MspDeInit 0 */
+ 101:Src/tim.c     ****     /* Peripheral clock disable */
+ 102:Src/tim.c     ****     __HAL_RCC_TIM1_CLK_DISABLE();
+ 103:Src/tim.c     **** 
+ 104:Src/tim.c     ****     /* TIM1 interrupt Deinit */
+ 105:Src/tim.c     ****     HAL_NVIC_DisableIRQ(TIM1_BRK_UP_TRG_COM_IRQn);
+ 106:Src/tim.c     ****     HAL_NVIC_DisableIRQ(TIM1_CC_IRQn);
+ 107:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspDeInit 1 */
+ 108:Src/tim.c     **** 
+ 109:Src/tim.c     ****   /* USER CODE END TIM1_MspDeInit 1 */
+ 110:Src/tim.c     ****   }
+ 111:Src/tim.c     **** }
+ 293              		.loc 1 111 1 view .LVU81
+ 294              		@ sp needed
+ 295 000a 10BD     		pop	{r4, pc}
+ 296              	.LVL18:
+ 297              	.L27:
+ 102:Src/tim.c     **** 
+ 298              		.loc 1 102 5 is_stmt 1 view .LVU82
+ 299 000c 064A     		ldr	r2, .L28+4
+ 300 000e 0749     		ldr	r1, .L28+8
+ 301 0010 9369     		ldr	r3, [r2, #24]
+ 105:Src/tim.c     ****     HAL_NVIC_DisableIRQ(TIM1_CC_IRQn);
+ 302              		.loc 1 105 5 is_stmt 0 view .LVU83
+ 303 0012 0D20     		movs	r0, #13
+ 304              	.LVL19:
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 9
+
+
+ 102:Src/tim.c     **** 
+ 305              		.loc 1 102 5 view .LVU84
+ 306 0014 0B40     		ands	r3, r1
+ 307 0016 9361     		str	r3, [r2, #24]
+ 105:Src/tim.c     ****     HAL_NVIC_DisableIRQ(TIM1_CC_IRQn);
+ 308              		.loc 1 105 5 is_stmt 1 view .LVU85
+ 309 0018 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 310              	.LVL20:
+ 106:Src/tim.c     ****   /* USER CODE BEGIN TIM1_MspDeInit 1 */
+ 311              		.loc 1 106 5 view .LVU86
+ 312 001c 0E20     		movs	r0, #14
+ 313 001e FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 314              	.LVL21:
+ 315              		.loc 1 111 1 is_stmt 0 view .LVU87
+ 316 0022 F2E7     		b	.L25
+ 317              	.L29:
+ 318              		.align	2
+ 319              	.L28:
+ 320 0024 002C0140 		.word	1073818624
+ 321 0028 00100240 		.word	1073876992
+ 322 002c FFF7FFFF 		.word	-2049
+ 323              		.cfi_endproc
+ 324              	.LFE42:
+ 326              		.global	htim1
+ 327              		.section	.bss.htim1,"aw",%nobits
+ 328              		.align	2
+ 329              		.set	.LANCHOR0,. + 0
+ 332              	htim1:
+ 333 0000 00000000 		.space	72
+ 333      00000000 
+ 333      00000000 
+ 333      00000000 
+ 333      00000000 
+ 334              		.text
+ 335              	.Letext0:
+ 336              		.file 2 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 337              		.file 3 "c:\\users\\rokko\\appdata\\roaming\\code\\user\\globalstorage\\bmd.stm32-for-vscode\\@xpa
+ 338              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x6.h"
+ 339              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 340              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 341              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h"
+ 342              		.file 8 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h"
+ 343              		.file 9 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim_ex.h"
+ 344              		.file 10 "Inc/main.h"
+ 345              		.file 11 "Inc/tim.h"
+ 346              		.file 12 "<built-in>"
+ARM GAS  C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 tim.c
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:18     .text.MX_TIM1_Init:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:25     .text.MX_TIM1_Init:0000000000000000 MX_TIM1_Init
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:156    .text.MX_TIM1_Init:0000000000000074 $d
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:163    .text.HAL_TIM_Base_MspInit:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:170    .text.HAL_TIM_Base_MspInit:0000000000000000 HAL_TIM_Base_MspInit
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:258    .text.HAL_TIM_Base_MspInit:0000000000000048 $d
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:264    .text.HAL_TIM_Base_MspDeInit:0000000000000000 $t
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:271    .text.HAL_TIM_Base_MspDeInit:0000000000000000 HAL_TIM_Base_MspDeInit
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:320    .text.HAL_TIM_Base_MspDeInit:0000000000000024 $d
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:332    .bss.htim1:0000000000000000 htim1
+C:\Users\rokko\AppData\Local\Temp\ccXdZDkn.s:328    .bss.htim1:0000000000000000 $d
+
+UNDEFINED SYMBOLS
+memset
+HAL_TIM_Base_Init
+HAL_TIM_ConfigClockSource
+HAL_TIMEx_MasterConfigSynchronization
+Error_Handler
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_NVIC_DisableIRQ

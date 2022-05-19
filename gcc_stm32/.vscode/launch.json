@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "showDevDebugOutput": "parsed",
+      "cwd": "${workspaceRoot}",
+      "executable": "./build/gcc_stm32.elf",
+      "name": "Debug STM32",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "openocd",
+      "preLaunchTask": "Build STM",
+      "device": "stm32f030x6.s",
+      "configFiles": [
+        "openocd.cfg"
+      ]
+    }
+  ]
+}
